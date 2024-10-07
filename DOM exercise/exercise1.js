@@ -7,15 +7,20 @@
  */
 
 let contenedor = document.querySelector("div");
-let divs = contenedor.children;
+let divs = Array.from(contenedor.children);
 
-for (let i = 0; i < divs.length; i++){
+//Forma más breve de hacer el código.
+divs.forEach( d => d.addEventListener("click", function(e){
+    this.classList.toggle("selected");
+}));
+
+/*for (let i = 0; i < divs.length; i++){
     divs[i].addEventListener("click", toglear);
 }
 
 function toglear(){
     this.classList.toggle("selected");
-}
+}*/
 
 let button = document.getElementById("delete");
 button.addEventListener("click", borrar);
