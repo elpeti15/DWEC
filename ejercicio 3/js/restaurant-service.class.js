@@ -12,7 +12,7 @@ export class RestaurantsService{
         return resp.restaurants;
     }
 
-    async add(restaurante){
+    async post(restaurante){
         const resp = await this.#http.post(`${SERVER}/restaurants`, restaurante);
         return resp.restaurant;
     }
