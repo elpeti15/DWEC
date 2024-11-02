@@ -12,8 +12,8 @@ export class RestaurantsService{
         return resp.restaurants;
     }
 
-    async post(restaurante){
-        const resp = await this.#http.post(`${SERVER}/restaurants`, restaurante);
+    async post(restaurant){
+        const resp = await this.#http.post(`${SERVER}/restaurants`, restaurant);
         return resp.restaurant;
     }
 
