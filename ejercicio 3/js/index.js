@@ -27,10 +27,12 @@ function showRestaurants(restaurants){
         htmlTemplate.querySelector(".card-text").textContent = r.description;
         htmlTemplate.querySelector(".card-img-top").src = r.image;
 
+        //Mostramos días de apertura: 
         const selectedDays = r.daysOpen.map(d => weekDays[d]);
         htmlTemplate.querySelector("strong").textContent = "Apertura: ";
         htmlTemplate.querySelector("strong").after(selectedDays.join(", "));
-
+        
+        //Controlamos la etiqueta de "abierto/cerrado"
         const spans = htmlTemplate.querySelectorAll("span");
         if (selectedDays.indexOf(weekDays[today]) !== -1){
             spans[1].classList.add("d-none");

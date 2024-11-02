@@ -24,6 +24,7 @@ f.addEventListener("submit", async e => {
         f.phone.classList.remove("is-valid");
         f.image.classList.remove("is-valid");
 
+        //Creamos objeto restaurant
         const restaurant = {
             name: f.name.value,
             description: f.description.value,
@@ -34,6 +35,7 @@ f.addEventListener("submit", async e => {
         }
         try{
             await restaurantsService.post(restaurant);
+            //Nos movemos al index.html
             location.assign("index.html");
         } catch (error){
             alert("Error al crear el restaurante");
