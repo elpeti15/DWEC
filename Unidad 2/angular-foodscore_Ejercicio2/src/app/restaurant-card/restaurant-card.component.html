@@ -1,0 +1,45 @@
+<div class="card h-100 shadow col">
+    <img [src]="restaurant.image" class="card-img-top" alt="Imagen del restaurante">
+    <div class="card-body">
+        <!-- Botón de eliminar -->
+        <button class="btn btn-danger delete" (click)="deleteRestaurant()"><i class="bi bi-trash"></i></button>
+        <!-- Nombre del restaurante -->
+        <h4 class="card-title">{{ restaurant().name }}</h4>
+        <!-- Descripción -->
+        <p class="card-text">{{ restaurant().description }}</p>
+        <!-- Días abiertos -->
+        <div class="card-text">
+            <small class="text-muted">
+                <strong>Abre: </strong>
+                @for (day of restaurant().daysOpen; track $index; let last = $last){
+                    @if (day && !last){
+                        <span>{{ day + ", " }}</span>
+                    } @else if (day && last){
+                        <span>{{ day }}</span>
+                    } @else {
+                        <span>{{ "" }}</span>
+                    }
+                }
+            </small>
+            <!-- Abierto o cerrado -->
+            <span
+                class="badge ms-2"
+                [class.bg-success]="restaurant().daysOpen.includes(days[weekDay])"
+                [class.bg-danger]="!restaurant().daysOpen.includes(days[weekDay])"
+            >
+                {{ restaurant().daysOpen.includes(days[weekDay]) ? "Abierto" : "Cerrado" }}
+            </span>
+        </div>
+        <!-- Teléfono -->
+        <div class="card-text">
+            <small class="text-muted phone">
+                <strong>Teléfono: </strong>
+                <span>{{ restaurant().phone }}</span>
+            </small>
+        </div>
+    </div>
+    <!-- Footer de la tarjeta -->
+    <div class="card-footer">
+        <small class="text-muted">{{ restaurant().cuisine }}</small>
+    </div>
+</div>
