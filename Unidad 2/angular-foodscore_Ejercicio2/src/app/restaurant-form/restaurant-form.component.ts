@@ -41,7 +41,7 @@ export class RestaurantFormComponent {
   }
    
   addRestaurant(restaurantForm: NgForm){
-    //Convertimos los días abiertos a índices
+    //Convertimos de boleano a días abiertos
     this.newRestaurant.daysOpen = this.daysOpen
       .map((isOpen, index) => isOpen ? this.days[index] : null)
       .filter(day => day !== null);
