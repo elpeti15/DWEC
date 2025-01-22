@@ -1,21 +1,32 @@
 <restaurant-form (add)="addRestaurant($event)"></restaurant-form>
-<div class="row">
-    <label class="col-form-label col-sm-2 text-sm-end" for="filterDesc">
-      Filter:
-    </label>
-    <div class="col-sm-5">
-      <input
-        type="text"
-        [(ngModel)]="search"
-        class="form-control"
-        id="filterDesc"
-        placeholder="Filter..."
-      />
-    </div>
-    <div class="col-form-label col-sm-5">Filtered by: {{ search() }}</div>
-</div>
+
+<nav class="navbar navbar-light bg-light justify-content-between mt-3">
+  <div class="col-auto ms-3">
+  <input type="checkbox" class="btn-check" id="show-open" (click)="showOpen()">
+  <label class="btn btn-outline-primary" for="show-open">Show open</label>
+  </div>
+  <form class="container-fluid mb-0 col">
+  <input 
+    class="form-control" 
+    [(ngModel)]="search"
+    type="text" 
+    name="search" 
+    placeholder="Filtrar" 
+    aria-label="Search"
+  />
+  </form>
+</nav>
+
+@if (showOpen()){
+  
+}
+
 <div id="placesContainer" class="mb-4 mt-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-    @for (restaurant of restaurants; track $index; let i = $index){
-        
+    @for (restaurant of restaurantsFiltered(); track $index; let i = $index){
+        <restaurant-card 
+          [restaurant]="restaurant"
+          (deleted)="deleteRestaurant(restaurant)"
+          class="col">
+        </restaurant-card>
     }
 </div>
