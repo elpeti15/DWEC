@@ -1,4 +1,5 @@
 <restaurant-form (add)="addRestaurant($event)"></restaurant-form>
+
 <nav class="navbar navbar-light bg-light justify-content-between mt-3">
   <div class="col-auto ms-3">
   <input type="checkbox" class="btn-check" id="show-open" (click)="showOpen()">
@@ -15,6 +16,7 @@
   />
   </form>
 </nav>
+
 <div id="placesContainer" class="mb-4 mt-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
     @for (restaurant of restaurantsFiltered(); track $index; let i = $index){
         <restaurant-card 
