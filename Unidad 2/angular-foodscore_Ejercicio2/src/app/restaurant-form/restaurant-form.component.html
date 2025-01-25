@@ -1,4 +1,4 @@
-<form (ngSubmit)="addRestaurant(restaurantForm)" #restaurantForm="ngForm" class="mt-4">
+<form (ngSubmit)="addRestaurant()" class="mt-4">
     <div class="mb-3">
     <label for="name">Nombre</label>
       <input
@@ -59,7 +59,7 @@
       type="file"
       id="image"
       class="form-control"
-      ngModel  
+      [(ngModel)]="filename"
       name="image"
       (change)="changeImage($event)">
   </div>

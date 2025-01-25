@@ -2,7 +2,13 @@
 
 <nav class="navbar navbar-light bg-light justify-content-between mt-3">
   <div class="col-auto ms-3">
-  <input type="checkbox" class="btn-check" id="show-open" (click)="showOpen()">
+  <input 
+    type="checkbox" 
+    class="btn-check" 
+    id="show-open" 
+    [checked]="showOpen()"
+    (change)="toggleShowOpen()"
+  />
   <label class="btn btn-outline-primary" for="show-open">Show open</label>
   </div>
   <form class="container-fluid mb-0 col">

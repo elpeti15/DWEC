@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, inject, output } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 import { Restaurant } from '../interfaces/restaurant';
 
 @Component({
@@ -11,14 +11,9 @@ import { Restaurant } from '../interfaces/restaurant';
 
 export class RestaurantFormComponent {
 
-  newRestaurant: Restaurant = {
-    name: "",
-    image: "",
-    cuisine: "",
-    description: "",
-    phone: "",
-    daysOpen: []
-  }
+  newRestaurant!: Restaurant;
+
+  filename = '';
 
   #changeDetector = inject(ChangeDetectorRef);
 
@@ -28,6 +23,9 @@ export class RestaurantFormComponent {
   daysOpen: boolean[] = (new Array(7)).fill(true);
   weekDay: number = new Date().getDay();
 
+  constructor(){
+    this.resetForm();
+  }
 
   changeImage(event: Event) {
     const fileInput = event.target as HTMLInputElement;
@@ -40,15 +38,25 @@ export class RestaurantFormComponent {
     });
   }
    
-  addRestaurant(restaurantForm: NgForm){
+  addRestaurant(){
     //Convertimos de boleano a días abiertos
     this.newRestaurant.daysOpen = this.daysOpen
       .map((isOpen, index) => isOpen ? this.days[index] : null)
       .filter(day => day !== null);
     this.add.emit({...this.newRestaurant}); //Clonamos el objeto antes de añadirlo
-    restaurantForm.resetForm();
-    this.newRestaurant.image = "";
-    this.daysOpen.fill(true);
-    //setTimeout(() => this.daysOpen = new Array(7).fill(true), 1);
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.newRestaurant = {
+      name: '',
+      description: '',
+      cuisine: '',
+      image: '',
+      daysOpen: [],
+      phone: '',
+    };
+    this.filename = '';
+    this.daysOpen = new Array(7).fill(true);
   }
 }
