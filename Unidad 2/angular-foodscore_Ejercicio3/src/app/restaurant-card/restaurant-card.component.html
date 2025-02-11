@@ -10,7 +10,7 @@
       <small class="text-muted">
         <strong>Días: </strong> {{ getOpenDayNames(restaurant().daysOpen) }}
       </small>
-      @if(restaurant().daysOpen[weekDay]) {
+      @if(getOpenDayNames(restaurant().daysOpen).includes(days[weekDay])) {
       <span class="badge ms-2 bg-success">Abierto</span>
       } @else {
       <span class="badge ms-2 bg-danger">Cerrado</span>

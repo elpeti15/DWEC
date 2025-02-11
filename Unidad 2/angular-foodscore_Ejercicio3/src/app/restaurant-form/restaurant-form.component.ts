@@ -1,47 +1,44 @@
-import { ChangeDetectorRef, Component, inject, output } from '@angular/core';
+import { Component, DestroyRef, inject, output } from '@angular/core';
 import { Restaurant } from '../interfaces/restaurant';
 import { FormsModule } from '@angular/forms';
+import { EncodeBase64Directive } from '../directives/encode-base64.directive';
+import { RestaurantsService } from '../services/restaurants.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'restaurant-form',
-  imports: [FormsModule],
+  imports: [FormsModule, EncodeBase64Directive],
   templateUrl: './restaurant-form.component.html',
   styleUrl: './restaurant-form.component.css'
 })
 export class RestaurantFormComponent {
+
+  #restaurantsService = inject(RestaurantsService);
+  #destroyRef = inject(DestroyRef);
+  
   readonly days = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
   newRestaurant!: Restaurant;
   add = output<Restaurant>();
   daysOpen!: boolean[];
 
-  filename = '';
-  #changeDetector = inject(ChangeDetectorRef);
-
   constructor() {
     this.resetForm();
   }
 
-  changeImage(event: Event) {
-    const fileInput = event.target as HTMLInputElement;
-    if (!fileInput.files || fileInput.files.length === 0) {
-      return;
-    }
-    const reader: FileReader = new FileReader();
-    reader.readAsDataURL(fileInput.files[0]);
-    reader.addEventListener('loadend', () => {
-      this.newRestaurant.image = reader.result as string;
-      this.#changeDetector.markForCheck();
-    });
-  }
-
-  addRestaurant() {
+  addRestaurant(input: HTMLInputElement) {
     this.newRestaurant.daysOpen = this.daysOpen
       .map((d, i) => String(i))
       .filter((i) => this.daysOpen[+i]);
-    this.add.emit(this.newRestaurant);
-    this.resetForm();
+    
+    this.#restaurantsService
+      .addRestaurant(this.newRestaurant)
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((restaurant) => {
+        this.add.emit(restaurant);
+        this.resetForm();
+        input.value = '';
+      })
   }
-
 
   resetForm() {
     this.newRestaurant = {
@@ -52,7 +49,7 @@ export class RestaurantFormComponent {
       daysOpen: [],
       phone: '',
     };
-    this.filename = '';
+    this.newRestaurant.image = '';
     this.daysOpen = new Array(7).fill(true);
   }
 }

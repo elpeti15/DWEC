@@ -3,13 +3,13 @@ import { Directive, output } from '@angular/core';
 @Directive({
   selector: 'input[type=file][encodeBase64]',
   host: {
-    '(change)': 'encondeFile($event)'
+    '(change)': 'encodeFile($event)'
   }
 })
 export class EncodeBase64Directive {
   encoded = output<string>();
 
-  encondeFile(event: Event) {
+  encodeFile(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     if (!fileInput.files?.length) {
       this.encoded.emit('');
