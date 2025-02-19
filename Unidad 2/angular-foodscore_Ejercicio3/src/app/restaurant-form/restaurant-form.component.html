@@ -72,9 +72,15 @@
       #inputFile
       (encoded)="newRestaurant.image = $event"
     />
+    <!--[(ngModel)]="filename"    en vez de usar #inputFile-->
   </div>
   @if(newRestaurant.image) {
-    <img [src]="newRestaurant.image" alt="" id="imgPreview" class="img-thumbnail mb-3" />
+  <img
+    [src]="newRestaurant.image"
+    alt=""
+    id="imgPreview"
+    class="img-thumbnail mb-3"
+  />
   }
 
   <div>

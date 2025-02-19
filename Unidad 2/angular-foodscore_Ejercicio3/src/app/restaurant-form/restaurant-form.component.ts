@@ -21,6 +21,8 @@ export class RestaurantFormComponent {
   add = output<Restaurant>();
   daysOpen!: boolean[];
 
+  //filename = '';
+
   constructor() {
     this.resetForm();
   }
@@ -40,6 +42,21 @@ export class RestaurantFormComponent {
       })
   }
 
+  /* Esta es la otra forma
+  addRestaurant() {
+    this.newRestaurant.daysOpen = this.daysOpen
+      .map((d, i) => String(i))
+      .filter((i) => this.daysOpen[+i]);
+    this.#restaurantsService
+      .insert(this.newRestaurant)
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((r) => {
+        this.add.emit(r);
+        this.resetForm();
+      });
+  }
+  */
+
   resetForm() {
     this.newRestaurant = {
       name: '',
@@ -52,4 +69,10 @@ export class RestaurantFormComponent {
     this.newRestaurant.image = '';
     this.daysOpen = new Array(7).fill(true);
   }
+
+  //De la otra forma sería:
+  /*
+    this.filename = '';
+    this.daysOpen = new Array(7).fill(true);
+  */
 }
