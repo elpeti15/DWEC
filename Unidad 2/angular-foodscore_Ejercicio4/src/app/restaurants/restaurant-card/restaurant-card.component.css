@@ -5,6 +5,10 @@
   aspect-ratio: 16 / 10;
 }
 
+.card-title a {
+  text-decoration: none;
+}
+
 .card-body {
   position: relative;
 

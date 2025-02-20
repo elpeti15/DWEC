@@ -1,4 +1,4 @@
-<form class="mt-4" (ngSubmit)="addRestaurant(inputFile)">
+<form class="mt-4" (ngSubmit)="addRestaurant()">
   <div class="mb-3">
     <label for="name">Nombre</label>
     <input
@@ -69,10 +69,8 @@
       name="image"
       ngModel
       encodeBase64
-      #inputFile
       (encoded)="newRestaurant.image = $event"
     />
-    <!--[(ngModel)]="filename"    en vez de usar #inputFile-->
   </div>
   @if(newRestaurant.image) {
   <img

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { RestaurantsResponse, SingleRestaurantResponse } from '../interfaces/responses';
+import { RestaurantsResponse, SingleRestaurantResponse } from '../../interfaces/responses';
 import { map, Observable } from 'rxjs';
-import { Restaurant } from '../interfaces/restaurant';
+import { Restaurant } from '../../interfaces/restaurant';
 
 @Injectable({
   providedIn: 'root'

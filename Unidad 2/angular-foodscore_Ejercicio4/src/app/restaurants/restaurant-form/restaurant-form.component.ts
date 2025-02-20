@@ -1,9 +1,10 @@
-import { Component, DestroyRef, inject, output } from '@angular/core';
+import { Component, DestroyRef, inject} from '@angular/core';
 import { Restaurant } from '../../interfaces/restaurant';
 import { FormsModule } from '@angular/forms';
 import { EncodeBase64Directive } from '../../directives/encode-base64.directive';
 import { RestaurantsService } from '../services/restaurants.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'restaurant-form',
@@ -11,23 +12,27 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './restaurant-form.component.html',
   styleUrl: './restaurant-form.component.css'
 })
-export class RestaurantFormComponent {
+export class RestaurantFormComponent { //implements CanComponentDeactivate
 
   #restaurantsService = inject(RestaurantsService);
   #destroyRef = inject(DestroyRef);
+  #router = inject(Router);
   
   readonly days = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
-  newRestaurant!: Restaurant;
-  add = output<Restaurant>();
-  daysOpen!: boolean[];
+  daysOpen: boolean[] = new Array(7).fill(true);
 
-  //filename = '';
+  newRestaurant: Restaurant = {
+    name: '',
+      description: '',
+      cuisine: '',
+      image: '',
+      daysOpen: [],
+      phone: ''
+  };
 
-  constructor() {
-    this.resetForm();
-  }
+  saved = false;
 
-  addRestaurant(input: HTMLInputElement) {
+  addRestaurant() {
     this.newRestaurant.daysOpen = this.daysOpen
       .map((d, i) => String(i))
       .filter((i) => this.daysOpen[+i]);
@@ -35,44 +40,14 @@ export class RestaurantFormComponent {
     this.#restaurantsService
       .addRestaurant(this.newRestaurant)
       .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((restaurant) => {
-        this.add.emit(restaurant);
-        this.resetForm();
-        input.value = '';
-      })
-  }
-
-  /* Esta es la otra forma
-  addRestaurant() {
-    this.newRestaurant.daysOpen = this.daysOpen
-      .map((d, i) => String(i))
-      .filter((i) => this.daysOpen[+i]);
-    this.#restaurantsService
-      .insert(this.newRestaurant)
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((r) => {
-        this.add.emit(r);
-        this.resetForm();
+      .subscribe({
+        next: (restaurant) => {
+          this.saved = true;
+          this.#router.navigate(['/restaurants', restaurant.id]);
+        },
+        error: () => console.log('Error')
       });
   }
-  */
 
-  resetForm() {
-    this.newRestaurant = {
-      name: '',
-      description: '',
-      cuisine: '',
-      image: '',
-      daysOpen: [],
-      phone: '',
-    };
-    this.newRestaurant.image = '';
-    this.daysOpen = new Array(7).fill(true);
-  }
-
-  //De la otra forma sería:
-  /*
-    this.filename = '';
-    this.daysOpen = new Array(7).fill(true);
-  */
+  //canDeactivate()
 }

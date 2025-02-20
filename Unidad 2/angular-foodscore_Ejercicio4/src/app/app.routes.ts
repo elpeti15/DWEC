@@ -13,5 +13,6 @@ export const routes: Routes = [
             { path: ':id', component: RestaurantDetailsComponent}
         ]
     },
-    { path: '', redirectTo: '/auth/login', pathMatch: 'full'}
+    { path: '', redirectTo: '/auth/login', pathMatch: 'full'},
+    { path: '**', redirectTo: '/auth/login'}
 ];
