@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, input, output } from '@angular/core';
 import { Restaurant } from '../../interfaces/restaurant';
 import { RestaurantsService } from '../services/restaurants.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'restaurant-card',
@@ -13,6 +13,7 @@ import { RouterLink } from '@angular/router';
 export class RestaurantCardComponent {
   #restaurantsService = inject(RestaurantsService);
   #destroyRef = inject(DestroyRef);
+  #router = inject(Router);
 
   weekDay: number = new Date().getDay();
   readonly days = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
@@ -28,6 +29,9 @@ export class RestaurantCardComponent {
     this.#restaurantsService
       .deleteRestaurant(this.restaurant().id!)
       .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe(() => this.deleted.emit());
+      .subscribe(() => {
+        this.deleted.emit();
+        this.#router.navigate(['/restaurants']);
+      });
   }
 }
