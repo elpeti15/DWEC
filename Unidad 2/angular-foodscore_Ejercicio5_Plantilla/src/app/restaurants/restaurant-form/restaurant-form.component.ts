@@ -15,7 +15,7 @@ import { OneCheckedDirective } from '../../shared/directives/one-checked.directi
   templateUrl: './restaurant-form.component.html',
   styleUrl: './restaurant-form.component.css'
 })
-export class RestaurantFormComponent implements CanComponentDeactivate{ //implements CanComponentDeactivate
+export class RestaurantFormComponent implements CanComponentDeactivate{ 
 
   #restaurantsService = inject(RestaurantsService);
   #destroyRef = inject(DestroyRef);
@@ -26,14 +26,16 @@ export class RestaurantFormComponent implements CanComponentDeactivate{ //implem
 
   newRestaurant: Restaurant = {
     name: '',
-      description: '',
-      cuisine: '',
-      image: '',
-      daysOpen: [],
-      phone: ''
+    description: '',
+    cuisine: '',
+    image: '',
+    daysOpen: [],
+    phone: ''
   };
 
   saved = false;
+
+  //Usamos ViewChild para poder hacer referencia al formulario de la plantilla
   @ViewChild('addForm') addForm!: NgForm;
 
   addRestaurant() {
