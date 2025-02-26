@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, viewChild } from '@angular/core';
 import { Restaurant } from '../../interfaces/restaurant';
 import { FormsModule, NgForm } from '@angular/forms';
 import { EncodeBase64Directive } from '../../shared/directives/encode-base64.directive';
@@ -36,7 +36,7 @@ export class RestaurantFormComponent implements CanComponentDeactivate{
   saved = false;
 
   //Usamos ViewChild para poder hacer referencia al formulario de la plantilla
-  @ViewChild('addForm') addForm!: NgForm;
+  addForm = viewChild.required(NgForm);
 
   addRestaurant() {
     this.newRestaurant.daysOpen = this.daysOpen
@@ -58,7 +58,7 @@ export class RestaurantFormComponent implements CanComponentDeactivate{
   canDeactivate() {
     return ( 
       this.saved ||
-      this.addForm.pristine ||
+      this.addForm().pristine ||
       confirm('¿Quieres abandonar la página?. Los cambios se perderán...')
     );
   }
