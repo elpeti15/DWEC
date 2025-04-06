@@ -69,7 +69,7 @@ export class LoginComponent {
         error: (err) => {
           this.alertModal(
             'Error',
-            'Error al iniciar sesión: ' + err.statusText
+            'Error al iniciar sesión: ' + err.error.message
           );
         },
       });
@@ -94,7 +94,7 @@ export class LoginComponent {
         error: (err) => {
           this.alertModal(
             'Error',
-            'Error al iniciar sesión: ' + err.statusText
+            'Error al iniciar sesión con google: ' + err.error.message
           );
         },
       });
@@ -119,7 +119,7 @@ export class LoginComponent {
         error: (err) => {
           this.alertModal(
             'Error',
-            'Error al iniciar sesión en facebook: ' + err.statusText
+            'Error al iniciar sesión con facebook: ' + err.error.message
           );
         },
       });

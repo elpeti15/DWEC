@@ -1,9 +1,12 @@
 <div class="card h-100 shadow">
   <img class="card-img-top" [src]="restaurant().image" alt="" [routerLink]="['/restaurants', restaurant().id]"/>
   <div class="card-body">
-    <button class="btn btn-danger delete" (click)="deleteRestaurant()">
-      <i class="bi bi-trash"></i>
+    @if (restaurant().mine) {
+    <button class="btn btn-danger delete" (click)="deleteModal()">
+      <!--<i class="bi bi-trash"></i>-->
+      <fa-icon [icon]="icons.faTrash"></fa-icon>
     </button>
+    }
     <h4 class="card-title">
       <a [routerLink]="['/restaurants', restaurant().id]"> {{restaurant().name }}</a> 
     </h4>
@@ -23,8 +26,25 @@
         <strong>Teléfono: </strong> {{ restaurant().phone }}
       </small>
     </div>
+    <div>
+      <small class="text-muted stars">
+        <star-rating
+          [modificar]="false"
+          [rating]="restaurant().stars"
+        ></star-rating>
+      </small>
+    </div>
+    @if(restaurant().mine){
+      <button class="btn btn-success edit" (click)="edit()">
+        <!--<i class="bi bi-trash"></i>-->
+        <fa-icon [icon]="icons.faPen"></fa-icon>
+      </button>
+      }
   </div>
   <div class="card-footer">
     <small class="text-muted">{{ restaurant().cuisine }}</small>
+    <small class="text-muted float-end distance">
+      {{ restaurant().distance!.toFixed(2) }}km
+    </small>
   </div>
 </div>

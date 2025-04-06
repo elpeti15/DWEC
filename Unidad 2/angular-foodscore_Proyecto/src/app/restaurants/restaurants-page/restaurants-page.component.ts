@@ -1,9 +1,11 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, input, signal, untracked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Restaurant } from '../../interfaces/restaurant';
+import { Restaurant } from '../interfaces/restaurant';
 import { RestaurantCardComponent } from '../restaurant-card/restaurant-card.component';
 import { RestaurantsService } from '../services/restaurants.service';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { ProfileService } from '../../profile/services/profile.service';
 
 @Component({
   selector: 'restaurants-page',
@@ -12,37 +14,90 @@ import { rxResource } from '@angular/core/rxjs-interop';
   styleUrl: './restaurants-page.component.css',
 })
 export class RestaurantsPageComponent {
-  #restaurantsService = new RestaurantsService();
-
-  restaurantsResource = rxResource({
-    loader: () => this.#restaurantsService.getRestaurants()
-  });
-
+  #restaurantService = inject(RestaurantsService);
+  #profileService = inject(ProfileService);
+  #detroyRef = inject(DestroyRef);
   weekDay: number = new Date().getDay();
-
+  creator = input<string>();
+  restaurants = signal<Restaurant[]>([]);
   search = signal('');
-  onlyOpen = signal(false);
-
-  filteredRestaurants = computed(() => {
-    const searchLower = this.search().toLowerCase();
-    const filtered = this.restaurantsResource.value()?.filter(
-      (r) =>
-        r.name.toLowerCase().includes(searchLower) ||
-        r.description.toLowerCase().includes(searchLower)
-    ) ?? [];
-
-    return this.onlyOpen()
-      ? filtered.filter((r) => r.daysOpen.includes(this.weekDay.toString()))
-      : filtered;
+  searchDebounce = toSignal(
+    toObservable(this.search).pipe(debounceTime(600), distinctUntilChanged())
+  );
+  moreRestaurants = false;
+  page = signal(1);
+  open = signal(0);
+  nombreUsuario = signal<string>('');
+  filter = computed(() => {
+    let filter = 'Restaurants: ';
+    if (this.nombreUsuario()) {
+      filter += ' Filtrado por creador: ' + this.nombreUsuario();
+    }
+    if (this.search() !== '') {
+      filter += ' Filtrado por nombre: ' + this.search();
+    }
+    return (filter +=
+      this.open() === 1 ? ' Filtro por: abiertos' : ' Filtrado por: Todos');
   });
 
-  addRestaurant(restaurant: Restaurant) {
-    this.restaurantsResource.update((restaurants) => restaurants?.concat(restaurant));
+  constructor() {
+    
+    effect(() => {
+      const valor = this.searchDebounce();
+      untracked(() => {
+        if (valor === this.search() && valor !== '' && this.search() !== '') {
+          this.page.set(1);
+        }
+      });
+    });
+    effect(() => {
+      let restaurants;
+      if (this.creator()) {
+        restaurants = this.#restaurantService.getRestaurants(
+          this.searchDebounce(),
+          this.page(),
+          this.open(),
+          this.creator()
+        );
+        this.#profileService
+          .getProfile(Number(this.creator()))
+          .subscribe((res) => {
+            this.nombreUsuario.set(res.name);
+          });
+      } else {
+        this.nombreUsuario.set('');
+        restaurants = this.#restaurantService.getRestaurants(
+          this.searchDebounce(),
+          this.page(),
+          this.open()
+        );
+      }
+      restaurants.pipe(takeUntilDestroyed(this.#detroyRef)).subscribe((res) => {
+        this.restaurants.update((restaurants) => {
+          if (this.page() === 1) {
+            return res.restaurants;
+          } else {
+            return [...restaurants, ...res.restaurants];
+          }
+        });
+        this.moreRestaurants = res.more;
+        this.page.set(res.page);
+      });
+    });
   }
 
   deleteRestaurant(restaurant: Restaurant) {
-    this.restaurantsResource.update((restaurants) =>
-      restaurants?.filter((r) => r !== restaurant)
+    this.restaurants.update((restaurants) =>
+      restaurants.filter((r) => r !== restaurant)
     );
+  }
+
+  changeOpen() {
+    this.page.set(1);
+    this.open.update((open) => (open === 0 ? 1 : 0));
+  }
+
+  loadMore() {
+    this.page.update((page) => page + 1);
   }
 }
