@@ -52,7 +52,7 @@ export class ProfilePageComponent {
     loader: () =>
       this.#profileService.getProfile(this.id()!).pipe(
         tap((r) => {
-          this.#title.setTitle(r.name + ' | FoodScore');
+          this.#title.setTitle(r.name + ' | Angular Foodscore');
           console.log(r);
           this.coordinates.set([r.lng, r.lat]);
           this.imagen.set(r.avatar);

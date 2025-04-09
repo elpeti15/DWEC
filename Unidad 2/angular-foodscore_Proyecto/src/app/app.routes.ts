@@ -13,6 +13,12 @@ export const routes: Routes = [
         canActivate: [loginActivateGuard],
         loadChildren: () => import('./restaurants/restaurants.routes').then(m => m.restaurantsRoutes)
     },
+    {
+        path: 'profile',
+        canActivate: [loginActivateGuard],
+        loadChildren: () =>
+          import('./profile/profile.routes').then((m) => m.profileRoutes),
+    },
     { path: '', redirectTo: '/restaurants', pathMatch: 'full' },
     { path: '**', redirectTo: '/restaurants' },
 ];

@@ -7,7 +7,8 @@
           <div>
             <img class="w-100" id="avatar" src="{{ imagen() }}" alt="" />
             @if(profileResource.value()?.me){
-            <label class="btn btn-sm btn-danger w-auto">
+            <!-- Botón de edición de avatar-->
+            <label class="btn btn-sm btn-warning w-auto">
               <fa-icon [icon]="icon.faEdit"></fa-icon>
               <input
                 type="file"
@@ -22,7 +23,7 @@
         </div>
     
         <div class="col-9" id="profileInfo">
-          <!--  Cambiar h4 por inputs con un botón -->
+          
           <h4 id="name">{{ profileResource.value()?.name }}</h4>
           <h4 id="email">
             <small class="text-muted">{{ profileResource.value()?.email }}</small>
@@ -31,30 +32,31 @@
           @if(profileResource.value()?.me){
           <div>
             <button
-              class="btn btn-primary"
+              class="btn btn-primary me-3 mt-3"
               id="editProfile"
               (click)="changeVisitbilityProfile()"
             >
               <i class="fa-regular fa-pen-to-square"></i>
-              Edit profile
+              Editar perfil
             </button>
             <button
-              class="btn btn-success"
+              class="btn btn-success mt-3"
               id="editPassword"
               (click)="changeVisibilityPassword()"
             >
               <i class="fa-solid fa-lock"></i>
-              Edit password
+              Editar contraseña
             </button>
+            
+          </div>
+          }
             <a
-              class="btn btn-outline-primary"
+              class="btn btn-outline-primary mt-3"
               [routerLink]="['/restaurants']"
               [queryParams]="{ creator: profileResource.value()?.id }"
             >
-              See restaurants
+              Ver sus restaurantes
             </a>
-          </div>
-          }
         </div>
       </div>
       @if(editarProfile()){
