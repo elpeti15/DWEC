@@ -29,15 +29,15 @@ export class RestaurantsPageComponent {
   open = signal(0);
   nombreUsuario = signal<string>('');
   filter = computed(() => {
-    let filter = 'Restaurants: ';
+    let filter = 'Restaurantes: ';
     if (this.nombreUsuario()) {
-      filter += ' Filtrado por creador: ' + this.nombreUsuario();
+      filter += 'creados por ' + this.nombreUsuario() + '.';
     }
     if (this.search() !== '') {
-      filter += ' Filtrado por nombre: ' + this.search();
+      filter += ' Filtrados por: ' + this.search() + '.';
     }
     return (filter +=
-      this.open() === 1 ? ' Filtro por: abiertos' : ' Filtrado por: Todos');
+      this.open() === 1 ? ' Solo abiertos hoy' : '');
   });
 
   constructor() {

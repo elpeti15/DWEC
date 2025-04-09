@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { afterRenderEffect, Component, DestroyRef, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -40,16 +40,17 @@ export class LoginComponent {
   });
 
   constructor() {
-    //Puede que haga falta afterrendereffect o afternextrender...
-    const coords: Coordinates = {
-      latitude: this.getCoordinates()?.latitude ?? 0,
-      longitude: this.getCoordinates()?.longitude ?? 0
-    };
+    afterRenderEffect(async () => {
+      const coords: Coordinates = {
+        latitude: this.getCoordinates()?.latitude ?? 0,
+        longitude: this.getCoordinates()?.longitude ?? 0
+      };
 
-    if (coords) {
-      this.loginForm.controls.lat.setValue(coords.latitude);
-      this.loginForm.controls.lng.setValue(coords.longitude);
-    }
+      if (coords) {
+        this.loginForm.controls.lat.setValue(coords.latitude);
+        this.loginForm.controls.lng.setValue(coords.longitude);
+      }
+    });
   }
 
   login() {

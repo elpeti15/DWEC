@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { afterRenderEffect, Component, DestroyRef, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ValidationClassesDirective } from '../../shared/directives/validation-classes.directive';
@@ -48,16 +48,17 @@ export class RegisterComponent implements CanComponentDeactivate{
   });
 
   constructor() {
-    //Puede que haga falta afterrendereffect o afternextrender...
-    const coords: Coordinates = {
-      latitude: this.getCoordinates()?.latitude ?? 0,
-      longitude: this.getCoordinates()?.longitude ?? 0
-    };
+    afterRenderEffect(async () => {
+      const coords: Coordinates = {
+        latitude: this.getCoordinates()?.latitude ?? 0,
+        longitude: this.getCoordinates()?.longitude ?? 0
+      };
 
-    if (coords) {
-      this.registerForm.controls.lat.setValue(coords.latitude);
-      this.registerForm.controls.lng.setValue(coords.longitude);
-    }
+      if (coords) {
+        this.registerForm.controls.lat.setValue(coords.latitude);
+        this.registerForm.controls.lng.setValue(coords.longitude);
+      }
+    });
 
     this.emailControl.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.registerForm.controls.emailConfirm.updateValueAndValidity();

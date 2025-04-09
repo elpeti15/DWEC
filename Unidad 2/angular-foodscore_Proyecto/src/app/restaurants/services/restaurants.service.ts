@@ -34,7 +34,7 @@ export class RestaurantsService {
         open: open.toString(),
       });
     }
-    console.log(search + ' ' + page + ' ' + open + ' ' + creator);
+    
     return this.#http
       .get<RestaurantsResponse>(`${this.#urlRestaurants}?${urlParams}`)
       .pipe(map((r) => r));

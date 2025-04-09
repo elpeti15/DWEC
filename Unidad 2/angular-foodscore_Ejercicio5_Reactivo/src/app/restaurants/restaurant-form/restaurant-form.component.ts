@@ -45,9 +45,9 @@ export class RestaurantFormComponent implements CanComponentDeactivate{
     const newRestaurant: Restaurant = {
       ...this.restaurantForm.getRawValue(),
       image: this.imageBase64,
-      daysOpen: this.daysOpen
+      daysOpen: this.days
         .map((d, i) => String(i))
-        .filter((i) => this.daysOpen[+i])
+        .filter((i) => this.restaurantForm.value.daysOpen?.[+i])
     };
 
     this.#restaurantsService

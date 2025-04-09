@@ -62,7 +62,7 @@ export class RestaurantFormComponent implements CanComponentDeactivate{
     loader: ({request: id}) => this.#restaurantsService.getRestaurant(id).pipe(
       tap((r) => {
         this.coordinates.set([r.lng, r.lat]);
-        this.#title.setTitle(r.name + ' | FoodScore');
+        this.#title.setTitle(r.name + ' | Angular Foodscore');
       }),
       catchError(() => {
         this.#router.navigate(['/restaurants']);
@@ -121,9 +121,9 @@ export class RestaurantFormComponent implements CanComponentDeactivate{
     const newRestaurant: RestaurantInsert = {
       ...this.restaurantForm.getRawValue(),
       image: this.imageBase64,
-      daysOpen: this.daysOpen
+      daysOpen: this.days
         .map((d, i) => String(i))
-        .filter((i) => this.daysOpen[+i]),
+        .filter((i) => this.restaurantForm.value.daysOpen?.[+i]),
       phone: this.restaurantForm.controls.phone.value.toString(),
     };
 

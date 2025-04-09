@@ -45,6 +45,7 @@ export class RestaurantCardComponent {
   }
 
   edit() {
+    console.log("funcion edit");
     this.#router.navigate(['/restaurants', 'edit', this.restaurant().id]);
   }
 

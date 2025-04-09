@@ -108,10 +108,10 @@
         ></textarea>
         @let textModel = commentForm.controls.text;
         @if(textModel.errors?.['required']){
-        <div class="invalid-feedback">La descripción es requerida</div>
+        <div class="invalid-feedback">El comentario no puede estar vacío</div>
         } @if(textModel.errors?.['minlength']){
         <div class="invalid-feedback">
-          La descripcion tiene que tener al menos 3 caracteres
+          El comentario tiene que tener al menos 3 caracteres
         </div>
         }
       </div>
