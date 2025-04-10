@@ -21,7 +21,7 @@
       </ol-map>
     </div>
     
-    <div class="card mt-4" id="creatorCard">
+    <div class="card mt-4" id="creatorCard" [routerLink]="['/profile', restaurant?.creator?.id]">
       <div class="card-header bg-danger text-white">Restaurant's owner</div>
       <div class="card-body d-flex flex-row">
         <div>
@@ -57,18 +57,18 @@
             @for(comment of
                 commentsResource.value()?.comments;track $index){
                 <li class="list-group-item">
-                <a
+                  <a
                     class="avatar"
-                    [routerLink]="['/profile', restaurant?.creator?.id]"
-                >
+                    [routerLink]="['/profile', comment?.user?.id]"
+                  >
                     <img
                     class="rounded-circle me-3"
                     style="width: 40px"
                     src="{{ comment.user?.avatar }}"
                     alt=""
                     />
-                </a>
-                <div>
+                  </a>
+                  <div>
                     <div class="row">
                     <strong
                         ><a class="name" [routerLink]="['/profile', comment.user?.id]"
@@ -86,7 +86,7 @@
                     <div>
                     <small class="date">{{ comment.date | date : "medium" }}</small>
                     </div>
-                </div>
+                  </div>
                 </li>
             }
         } @else {

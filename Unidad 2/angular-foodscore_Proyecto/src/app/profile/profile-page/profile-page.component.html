@@ -1,5 +1,5 @@
 @if(profileResource.isLoading()){
-    <div class="text-center size-max">Cargando el usuario</div>
+    <div class="text-center fs-1">Cargando el usuario</div>
     } @else{
     <div class="container">
       <div class="row mt-4" id="profile">
@@ -60,7 +60,7 @@
         </div>
       </div>
       @if(editarProfile()){
-      <div class="col-9" id="profileForm" (submit)="putProfile()">
+      <div class="col-9 mt-3" id="profileForm" (submit)="putProfile()">
         <form [formGroup]="profileForm">
           <div class="mb-3">
             <label for="emailInput">Email:</label>
@@ -74,6 +74,8 @@
             <div class="invalid-feedback">
               El email es obligatorio y debe tener un formato correcto
             </div>
+          </div>
+          <div class="mb-3">
             <label for="nameInput">Name:</label>
             <input
               type="text"
@@ -82,13 +84,14 @@
               placeholder="Name"
               [validationClasses]="{ valid: 'is-valid', invalid: 'is-invalid' }"
             />
+            <div class="invalid-feedback">El nombre no puede estar vacío</div>
           </div>
           <button
             type="submit"
-            class="btn btn-primary"
+            class="btn btn-primary me-2"
             [disabled]="profileForm.invalid"
           >
-            Save changes
+            Guardar cambios
           </button>
           <button
             type="button"
@@ -96,12 +99,12 @@
             id="cancelEditProfile"
             (click)="changeVisitbilityProfile()"
           >
-            Cancel
+            Cancelar
           </button>
         </form>
       </div>
       } @if(editPassword()){
-      <div class="col-9" id="passwordForm" (submit)="putPassword()">
+      <div class="col-9 mt-3" id="passwordForm" (submit)="putPassword()">
         <form [formGroup]="passwordForm">
           <div class="mb-3">
             <label for="password">Password:</label>
@@ -113,6 +116,8 @@
               [validationClasses]="{ valid: 'is-valid', invalid: 'is-invalid' }"
             />
             <div class="invalid-feedback">La contraseña es obligatoria</div>
+          </div>
+          <div class="mb-3">
             <label for="passwordRep">Repeat password:</label>
             @let passwordRep = passwordForm.controls.passwordRep;
             <input
@@ -129,10 +134,10 @@
           </div>
           <button
             type="submit"
-            class="btn btn-primary"
+            class="btn btn-primary me-2"
             [disabled]="passwordForm.invalid"
           >
-            Save changes
+            Guardar cambios
           </button>
           <button
             type="button"
@@ -140,7 +145,7 @@
             id="cancelEditPassword"
             (click)="changeVisibilityPassword()"
           >
-            Cancel
+            Cancelar
           </button>
         </form>
       </div>

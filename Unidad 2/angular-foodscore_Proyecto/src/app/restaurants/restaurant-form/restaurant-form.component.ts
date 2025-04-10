@@ -55,7 +55,8 @@ export class RestaurantFormComponent implements CanComponentDeactivate{
   coordinates = signal<[number, number]>([-0.5, 38.5]);
   #title = inject(Title);
   id = input<number>();
-  insertar = signal(false);
+
+  insertar = signal(false); //Signal para controlar si se está isertando o editando
 
   restaurantResource = rxResource({
     request: () => this.id(),
@@ -83,7 +84,11 @@ export class RestaurantFormComponent implements CanComponentDeactivate{
         this.restaurantForm.controls.cuisine.setValue(
           this.restaurantResource.value()!.cuisine
         );
+
         this.imageBase64 = this.restaurantResource.value()!.image;
+        this.restaurantForm.controls.image.clearValidators(); //Importante para que se envíe la misma imagen sin tener que volver a subirla
+        this.restaurantForm.controls.image.updateValueAndValidity();
+
         this.restaurantForm.controls.phone.setValue(
           this.restaurantResource.value()!.phone.toString()
         );

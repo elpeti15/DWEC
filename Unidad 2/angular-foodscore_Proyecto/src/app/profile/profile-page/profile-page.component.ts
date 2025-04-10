@@ -96,15 +96,15 @@ export class ProfilePageComponent {
       .subscribe({
         next: () => {
           this.alertModal(
-            'Imagen Cambiada',
-            'La imagen ha sido cambiada a la nueva'
+            'Modificación de avatar',
+            'El avatar se ha modificado correctamente'
           );
           this.imagen.set(image);
         },
         error: (e) => {
           this.alertModal(
-            'Error al cambiar la imagen',
-            'Error en la subida de la imagen porfavor intentalo más tarde' + e
+            'Modificación de avatar',
+            'Error en la modificación del avatar: ' + e
           );
         },
       });
@@ -120,16 +120,16 @@ export class ProfilePageComponent {
       .subscribe({
         next: () => {
           this.alertModal(
-            'Contraseña cambiada',
-            'La contraseña se ha cambiado'
+            'Modificación de contraseña',
+            'La contraseña se ha modificado correctamente'
           );
           this.passwordForm.reset();
           this.changeVisibilityPassword();
         },
         error: (e) => {
           this.alertModal(
-            'Contraseña no ha sido cambiada',
-            'La contraseña no se ha podido cambiase ' + e
+            'Modificación de contraseña',
+            'Error en la modificación de contraseña: ' + e
           );
         },
       });
@@ -146,8 +146,8 @@ export class ProfilePageComponent {
       .subscribe({
         next: () => {
           this.alertModal(
-            'El perfil se ha cambiado',
-            'El perfil se ha cambiado perfectamente'
+            'Modificación del perfil',
+            'El perfil se ha modificado correctamente'
           );
           this.profileForm.reset();
           this.changeVisitbilityProfile();
@@ -155,8 +155,8 @@ export class ProfilePageComponent {
         },
         error: (e) => {
           this.alertModal(
-            'El perfil no se ha cambiado',
-            'El perfil no se ha podido cambiar: ' + e
+            'Modificación del perfil',
+            'Error en la modificación del perfil: ' + e
           );
         },
       });
