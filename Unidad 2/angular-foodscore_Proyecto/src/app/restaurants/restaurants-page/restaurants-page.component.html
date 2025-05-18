@@ -2,7 +2,9 @@
   <div class="col-auto ms-3">
     <input type="checkbox" class="btn-check" id="show-open" />
     <button
-      class="btn btn-outline-primary"
+      class="btn"
+      [class.btn-outline-primary]="open() === 0"
+      [class.btn-primary]="open() === 1"
       for="show-open"
       (click)="changeOpen()"
     >
