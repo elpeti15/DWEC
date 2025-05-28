@@ -1,14 +1,27 @@
 import { Routes } from '@angular/router';
+import { logoutActivateGuard } from './guards/logout-activate.guard';
+import { loginActivateGuard } from './guards/login-activate.guard';
 
 export const routes: Routes = [
   {
+    path: 'auth',
+    canActivate: [logoutActivateGuard],
+    loadChildren: () =>
+      import('./auth/auth.routes').then((m) => m.authRoutes),
+  },
+  /*{
+    path: 'products',
+    canActivate: [loginActivateGuard],
+    loadChildren: () =>
+      import('./products/products.routes').then((m) => m.productsRoutes),
+  },*/
+  {
     path: '',
-    redirectTo: 'folder/inbox',
+    redirectTo: 'auth/login',
     pathMatch: 'full',
   },
   {
-    path: 'folder/:id',
-    loadComponent: () =>
-      import('./folder/folder.page').then((m) => m.FolderPage),
+    path: '**',
+    redirectTo: 'auth/login',
   },
 ];
