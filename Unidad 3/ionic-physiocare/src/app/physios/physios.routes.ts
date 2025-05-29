@@ -9,4 +9,10 @@ export const physiosRoutes: Routes = [
     path: 'add',
     loadComponent: () => import('./physio-form/physio-form.page').then((m) => m.PhysioFormPage),
   },
+  {
+    path: 'profile/:id',
+    loadComponent: () => import('./physios-info/physios-info.page').then(
+      m => m.PhysiosInfoPage
+    ),
+  }
 ];

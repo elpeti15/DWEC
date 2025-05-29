@@ -36,7 +36,14 @@ export class PatientsFormPage {
   #changeDetector = inject(ChangeDetectorRef);
 
   addPatient() {
-    this.#patientsService.addPatient(this.newPatient).subscribe({
+    const [lng, lat] = this.coordinates(); // Recuerda: [lng, lat]
+
+    const patientToSend: Patient & { lat: number, lng: number } = {
+      ...this.newPatient,
+      lat,
+      lng
+    };
+    this.#patientsService.addPatient(patientToSend).subscribe({
       next: async pat => {
         (await this.#toastCtrl.create({
           position: 'bottom',
@@ -49,7 +56,7 @@ export class PatientsFormPage {
       error: async error => (await this.#toastCtrl.create({
         position: 'bottom',
         duration: 3000,
-        message: 'Error adding product'
+        message: 'Error adding patient'
       })).present()
     });
   }

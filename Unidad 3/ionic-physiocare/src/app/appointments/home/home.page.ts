@@ -82,7 +82,7 @@ export class HomePage {
     const { data } = await modal.onDidDismiss();
     if (data) {
       this.#appointmentsService.updateAppointmentDetails(
-        a.patient!._id,
+        a.patient!._id!,
         a._id!,
         data.diagnosis,
         data.treatment,

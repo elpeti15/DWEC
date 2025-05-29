@@ -1,0 +1,69 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/physios"></ion-back-button>
+    </ion-buttons>
+    @if (physio()) {
+      <ion-title>{{physio()!.name}}</ion-title>
+    }
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  @if (physio()) {
+    <ion-card>
+      <img [src]="physio()!.avatar || 'assets/img/default_avatar.jpg'" style="object-fit: cover; width: 100%; height: 180px;">
+      <ion-card-content>
+        <ion-card-title>
+          {{physio()!.name}} {{physio()!.surname}}
+        </ion-card-title>
+        <ion-card-subtitle>
+          {{physio()!.email}}
+        </ion-card-subtitle>
+
+        <!--@if (physio()!.me) {
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-button expand="block" color="primary">
+                  <ion-icon name="camera" slot="start"></ion-icon>
+                  Camera
+                </ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button expand="block" color="secondary">
+                  <ion-icon name="image" slot="start"></ion-icon>
+                  Gallery
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        }-->
+
+        <ion-list lines="none">
+          <ion-item>
+            <ion-icon name="medkit-outline" slot="start"></ion-icon>
+            <ion-label>
+              <strong>Specialty:</strong>
+              <span>{{physio()!.specialty}}</span>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="card" slot="start"></ion-icon>
+            <ion-label>
+              <strong>License #:</strong>
+              <span>{{physio()!.licenseNumber}}</span>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        @if (isAdmin) {
+          <ion-button expand="block" color="danger" (click)="delete()">
+            <ion-icon name="trash" slot="start"></ion-icon>
+            <ion-label>Delete</ion-label>
+          </ion-button>
+        }
+      </ion-card-content>
+    </ion-card>
+  }
+</ion-content>

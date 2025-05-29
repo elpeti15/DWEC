@@ -36,7 +36,7 @@
               </ion-router-link>
             }
             @if (app.physio && !app.patient) {
-              <ion-router-link [routerLink]="['/physios', app.physio._id]">
+              <ion-router-link [routerLink]="['/physios/profile', app.physio._id]">
                 Fisio: {{ app.physio.name }} {{ app.physio.surname }}
               </ion-router-link>
             }

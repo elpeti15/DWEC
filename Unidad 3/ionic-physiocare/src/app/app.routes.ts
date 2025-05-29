@@ -22,6 +22,12 @@ export const routes: Routes = [
       import('./physios/physios.routes').then((m) => m.physiosRoutes)
   },
   {
+    path: 'patients',
+    canActivate: [loginActivateGuard],
+    loadChildren: () => 
+      import('./patients/patients.routes').then((m) => m.patientsRoutes)
+  },
+  {
     path: '',
     redirectTo: 'auth/login',
     pathMatch: 'full',
