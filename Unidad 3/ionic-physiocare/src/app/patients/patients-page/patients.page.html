@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Patients List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher #refresher slot="fixed" (ionRefresh)="reloadPatients(refresher)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Barra de búsqueda -->
+  <ion-searchbar
+    debounce="500"
+    placeholder="Search by name or surname"
+    [(ngModel)]="searchTerm"
+    (ionInput)="filterPatientsByNameAndSurname()">
+  </ion-searchbar>
+
+  @if (isAdmin) {
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button color="secondary" [routerLink]="['/patients/add']" [routerDirection]="'root'">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  }
+
+  <ion-list style="padding-bottom: 50px">
+    @for (pat of filteredPatients(); track pat._id) {
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <ion-img 
+              [src]="pat.avatar || 'assets/default-avatar.jpg'">
+          </ion-img>
+        </ion-thumbnail>
+        <ion-label text-wrap>
+          <h4>{{pat.name}}</h4>
+          <p>{{pat.email}}</p>
+        </ion-label>
+        <ion-button slot="end" fill="clear" color="dark" (click)="showOptions(pat)">
+          <ion-icon slot="icon-only" name="menu"></ion-icon>
+        </ion-button>
+      </ion-item>
+    }
+  </ion-list>
+</ion-content>

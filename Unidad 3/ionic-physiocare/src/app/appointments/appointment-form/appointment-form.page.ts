@@ -75,8 +75,15 @@ export class AppointmentFormPage {
       return;
     }
 
-    this.#appointmentsService.addAppointment(this.physio()?._id!, fecha.toISOString()).subscribe({
-      next: async () => {
+    const physioId = this.physio()?._id!;
+    const isoDate = fecha.toISOString();
+    console.log('Enviando cita con:');
+    console.log('Physio ID:', physioId);
+    console.log('Fecha ISO:', isoDate);
+    
+    this.#appointmentsService.addAppointment(physioId, isoDate).subscribe({
+      next: async (resp) => {
+        console.log('Respuesta del servidor:', resp);
         (await this.#toastCtrl.create({
           message: 'Cita solicitada correctamente',
           color: 'success',
@@ -84,7 +91,8 @@ export class AppointmentFormPage {
         })).present();
         this.#nav.navigateRoot(['/appointments']);
       },
-      error: async () => {
+      error: async (err) => {
+        console.error('Error al solicitar cita:', err);
         (await this.#toastCtrl.create({
           message: 'Error al solicitar la cita',
           color: 'danger',

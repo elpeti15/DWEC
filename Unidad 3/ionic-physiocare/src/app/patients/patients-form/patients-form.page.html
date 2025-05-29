@@ -1,0 +1,158 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Add patient</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form #patientForm="ngForm" (ngSubmit)="addPatient()">
+    <ion-list>
+
+      <!-- Name -->
+      <ion-item>
+        <ion-input
+          name="name"
+          required
+          minlength="2"
+          maxlength="50"
+          [(ngModel)]="newPatient.name"
+          #nameModel="ngModel"
+          label="Name"
+          labelPlacement="floating"
+        ></ion-input>
+        @if (nameModel.dirty && nameModel.valid) {
+          <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
+        }
+      </ion-item>
+      @if (nameModel.invalid && nameModel.touched) {
+        <ion-note color="danger" class="validation-note">
+          Name is required (2-50 characters).
+        </ion-note>
+      }
+
+      <!-- Surname -->
+      <ion-item>
+        <ion-input
+          name="surname"
+          required
+          minlength="2"
+          maxlength="50"
+          [(ngModel)]="newPatient.surname"
+          #surnameModel="ngModel"
+          label="Surname"
+          labelPlacement="floating"
+        ></ion-input>
+        @if (surnameModel.dirty && surnameModel.valid) {
+          <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
+        }
+      </ion-item>
+      @if (surnameModel.invalid && surnameModel.touched) {
+        <ion-note color="danger" class="validation-note">
+          Surname is required (2-50 characters).
+        </ion-note>
+      }
+
+      <!-- Birth Date -->
+      <ion-item>
+        <ion-input
+          name="birthDate"
+          required
+          type="date"
+          [(ngModel)]="newPatient.birthDate"
+          #birthDateModel="ngModel"
+          label="Birth Date"
+          labelPlacement="floating"
+        ></ion-input>
+      </ion-item>
+      @if (birthDateModel.invalid && birthDateModel.touched) {
+        <ion-note color="danger" class="validation-note">
+          Birth date is required.
+        </ion-note>
+      }
+
+      <!-- Insurance Number -->
+      <ion-item>
+        <ion-input
+          name="insuranceNumber"
+          required
+          pattern="[a-zA-Z0-9]{9}"
+          [(ngModel)]="newPatient.insuranceNumber"
+          #insuranceModel="ngModel"
+          label="Insurance Number"
+          labelPlacement="floating"
+        ></ion-input>
+      </ion-item>
+      @if (insuranceModel.invalid && insuranceModel.touched) {
+        <ion-note color="danger" class="validation-note">
+          Insurance number is required and must be 9 alphanumeric characters.
+        </ion-note>
+      }
+
+      <!-- Email -->
+      <ion-item>
+        <ion-input
+          name="email"
+          type="email"
+          pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+          [(ngModel)]="newPatient.email"
+          #emailModel="ngModel"
+          label="Email"
+          labelPlacement="floating"
+        ></ion-input>
+      </ion-item>
+      @if (emailModel.invalid && emailModel.touched) {
+        <ion-note color="danger" class="validation-note">
+          Enter a valid email address.
+        </ion-note>
+      }
+
+      <!-- Address -->
+      <ion-item>
+        <ion-input
+          name="address"
+          required
+          readonly
+          [(ngModel)]="newPatient.address"
+          #addressModel="ngModel"
+          label="Address"
+          labelPlacement="floating"
+          placeholder="Select your address on the map below"
+        ></ion-input>
+      </ion-item>
+      @if (addressModel.invalid && addressModel.touched) {
+        <ion-note color="danger" class="validation-note">
+          Address is required.
+        </ion-note>
+      }
+
+      <!-- Mapa para dirección -->
+      <div style="margin: 16px 0;">
+        <ol-map [coordinates]="coordinates()">
+          <ga-autocomplete (locationChange)="changePlace($event)"></ga-autocomplete>
+          <ol-marker [coordinates]="coordinates()"></ol-marker>
+        </ol-map>
+      </div>
+
+    </ion-list>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" color="primary" expand="block" [disabled]="patientForm.invalid">
+            <ion-icon name="add" slot="start"></ion-icon>
+            Add patient
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button color="danger" expand="block" fill="outline" [routerLink]="['/patients']" [routerDirection]="'root'">
+            <ion-icon name="arrow-undo-circle" slot="start"></ion-icon>
+            Cancel
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

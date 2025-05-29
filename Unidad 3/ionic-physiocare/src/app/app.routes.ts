@@ -30,6 +30,10 @@ export const routes: Routes = [
     path: '**',
     redirectTo: 'auth/login',
   },
+  {
+    path: 'patients',
+    loadComponent: () => import('./patients/patients-page/patients.page').then( m => m.PatientsPage)
+  },
   /*{
     path: 'home',
     loadComponent: () => import('./appointments/home/home.page').then( m => m.HomePage)
