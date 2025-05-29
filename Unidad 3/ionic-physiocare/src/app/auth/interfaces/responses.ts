@@ -8,5 +8,6 @@ export interface LoginResponse {
 }
 
 export interface UserResponse {
+  ok: boolean;
   user: User;
 }

@@ -9,12 +9,12 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./auth/auth.routes').then((m) => m.authRoutes),
   },
-  /*{
-    path: 'products',
+  {
+    path: 'appointments',
     canActivate: [loginActivateGuard],
     loadChildren: () =>
-      import('./products/products.routes').then((m) => m.productsRoutes),
-  },*/
+      import('./appointments/appointments.routes').then((m) => m.appointmentsRoutes),
+  },
   {
     path: '',
     redirectTo: 'auth/login',
@@ -23,5 +23,9 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: 'auth/login',
+  },
+  {
+    path: 'home',
+    loadComponent: () => import('./appointments/home/home.page').then( m => m.HomePage)
   },
 ];

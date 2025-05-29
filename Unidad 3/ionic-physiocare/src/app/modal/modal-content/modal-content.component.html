@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Editar Cita</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="stacked">Diagnóstico</ion-label>
+    <ion-textarea [(ngModel)]="diagnosis"></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Tratamiento</ion-label>
+    <ion-textarea [(ngModel)]="treatment"></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Observaciones</ion-label>
+    <ion-textarea [(ngModel)]="observations"></ion-textarea>
+  </ion-item>
+  <ion-button expand="block" color="success" (click)="save()">Guardar</ion-button>
+</ion-content>

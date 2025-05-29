@@ -1,0 +1,72 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Citas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher #refresher slot="fixed" (ionRefresh)="reloadAppointments(refresher)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-item lines="none">
+    <ion-label>Mostrar futuras</ion-label>
+    <ion-toggle
+      [checked]="showFuture()"
+      (ionChange)="showFuture.set($event.detail.checked)"
+      slot="end"
+    ></ion-toggle>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Total citas: {{ filteredAppointments().length }}</ion-label>
+  </ion-item>
+
+  <ion-list style="padding-bottom: 50px">
+    @for (app of filteredAppointments(); track app._id) {
+      <ion-item>
+        <ion-label text-wrap>
+          <h4>
+            @if (app.patient) {
+              <ion-router-link [routerLink]="['/patients', app.patient._id]">
+                Paciente: {{ app.patient.name }} {{ app.patient.surname }}
+              </ion-router-link>
+            }
+            @if (app.physio && !app.patient) {
+              <ion-router-link [routerLink]="['/physios', app.physio._id]">
+                Fisio: {{ app.physio.name }} {{ app.physio.surname }}
+              </ion-router-link>
+            }
+          </h4>
+          <p><strong>Fecha:</strong> {{ app.date | date:'medium' }}</p>
+          @if (app.diagnosis) {
+            <p><strong>Diagnóstico:</strong> {{ app.diagnosis }}</p>
+          }
+          @if (app.treatment) {
+            <p><strong>Tratamiento:</strong> {{ app.treatment }}</p>
+          }
+          @if (app.observations) {
+            <p><strong>Observaciones:</strong> {{ app.observations }}</p>
+          }
+          @if (app.confirmed) {
+            <p><ion-icon name="checkmark-circle"></ion-icon> Confirmada</p>
+          }
+        </ion-label>
+
+        @if (isPhysio) {
+          <ion-button
+            slot="end"
+            fill="clear"
+            color="dark"
+            (click)="editAppointment(app)"
+          >
+            <ion-icon slot="icon-only" name="create"></ion-icon>
+          </ion-button>
+        }
+      </ion-item>
+    }
+  </ion-list>
+</ion-content>
