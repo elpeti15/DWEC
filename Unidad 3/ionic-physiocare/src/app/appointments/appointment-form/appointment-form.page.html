@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Solicitar cita</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  @if (physio()) {
+    <ion-list>
+      <ion-item lines="full">
+        <ion-label>
+          <h2>{{ physio()?.name }} {{ physio()?.surname }}</h2>
+          <p><strong>Email:</strong> {{ physio()?.email }}</p>
+          <p><strong>Especialidad:</strong> {{ physio()?.specialty }}</p>
+          <p><strong>Nº colegiado:</strong> {{ physio()?.licenseNumber }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          name="date"
+          type="datetime-local"
+          required
+          [(ngModel)]="date"
+          label="Fecha y hora"
+          labelPlacement="floating">
+        </ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-button expand="block" color="primary" (click)="addAppointment()" [disabled]="!date">
+      <ion-icon name="add" slot="start"></ion-icon>
+      Solicitar cita
+    </ion-button>
+  }
+</ion-content>

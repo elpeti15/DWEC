@@ -39,6 +39,8 @@ export class HomePage {
   #appointmentsService = inject(AppointmentsService);
   #auth = inject(AuthService);
 
+  #modalCtrl = inject(ModalController);
+
   readonly filteredAppointments = computed(() => {
     const future = this.showFuture();
     const now = new Date().getTime();
@@ -50,10 +52,8 @@ export class HomePage {
     });
   });
 
-  // Getter para usar en la plantilla
-  get isPhysio(): boolean {
-    return this.#auth.rol() === 'physio';
-  }
+  // Para usar en la plantilla
+  readonly isPhysio = computed(() => this.#auth.rol() === 'physio');
 
   ionViewWillEnter() {
     this.reloadAppointments();
@@ -61,7 +61,7 @@ export class HomePage {
 
   reloadAppointments(refresher?: IonRefresher) {
     this.#appointmentsService.getAppointments().subscribe((apps) => {
-      console.log('Citas obtenidas:', apps);
+      //console.log('Citas obtenidas:', apps);
       this.appointments.set(this.#sorted(apps));
       refresher?.complete();
     });
@@ -72,9 +72,7 @@ export class HomePage {
   }
 
   async editAppointment(a: Appointment) {
-    const modalCtrl = inject(ModalController);
-
-    const modal = await modalCtrl.create({
+    const modal = await this.#modalCtrl.create({
       component: ModalContentComponent,
       componentProps: { appointment: a },
     });

@@ -56,14 +56,14 @@
           }
         </ion-label>
 
-        @if (isPhysio) {
+        @if (isPhysio()) {
           <ion-button
             slot="end"
             fill="clear"
             color="dark"
             (click)="editAppointment(app)"
           >
-            <ion-icon slot="icon-only" name="create"></ion-icon>
+            <ion-icon slot="icon-only" name="pencil" color="dark"></ion-icon>
           </ion-button>
         }
       </ion-item>

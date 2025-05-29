@@ -1,5 +1,5 @@
 export interface Physio {
-  _id: string;
+  _id?: string;
   name: string;
   surname: string;
   email: string;

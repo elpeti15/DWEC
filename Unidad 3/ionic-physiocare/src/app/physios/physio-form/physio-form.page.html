@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Añadir Fisio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form #physioForm="ngForm" (ngSubmit)="addPhysio()">
+    <ion-list>
+      <ion-item>
+        <ion-input name="name" required [(ngModel)]="newPhysio.name" #nameModel="ngModel" label="Nombre" labelPlacement="floating"></ion-input>
+        @if (nameModel.dirty && nameModel.valid) {
+          <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
+        }
+      </ion-item>
+
+      <ion-item>
+        <ion-input name="surname" required [(ngModel)]="newPhysio.surname" #surnameModel="ngModel" label="Apellidos" labelPlacement="floating"></ion-input>
+        @if (surnameModel.dirty && surnameModel.valid) {
+          <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
+        }
+      </ion-item>
+
+      <ion-item>
+        <ion-input name="email" type="email" required [(ngModel)]="newPhysio.email" #emailModel="ngModel" label="Email" labelPlacement="floating"></ion-input>
+        @if (emailModel.dirty && emailModel.valid) {
+          <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
+        }
+      </ion-item>
+
+      <ion-item>
+        <ion-input name="specialty" required [(ngModel)]="newPhysio.specialty" #specialtyModel="ngModel" label="Especialidad" labelPlacement="floating"></ion-input>
+        @if (specialtyModel.dirty && specialtyModel.valid) {
+          <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
+        }
+      </ion-item>
+
+      <ion-item>
+        <ion-input name="licenseNumber" required [(ngModel)]="newPhysio.licenseNumber" #licenseModel="ngModel" label="Nº Colegiado" labelPlacement="floating"></ion-input>
+        @if (licenseModel.dirty && licenseModel.valid) {
+          <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
+        }
+      </ion-item>
+    </ion-list>
+
+    <ion-button type="submit" color="primary" expand="block" [disabled]="physioForm.invalid">
+      <ion-icon name="add" slot="start"></ion-icon>
+      Añadir Fisio
+    </ion-button>
+  </form>
+</ion-content>

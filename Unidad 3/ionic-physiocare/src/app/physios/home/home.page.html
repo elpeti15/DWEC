@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Fisioterapeutas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher #refresher slot="fixed" (ionRefresh)="reloadPhysios(refresher)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-item>
+    <ion-label>Total fisios: {{ physios().length }}</ion-label>
+  </ion-item>
+
+  <ion-list style="padding-bottom: 50px">
+    @for (f of physios(); track f._id) {
+      <ion-item>
+        <ion-label text-wrap>
+          <h4>{{ f.name }} {{ f.surname }}</h4>
+          <p><strong>Email:</strong> {{ f.email }}</p>
+          <p><strong>Especialidad:</strong> {{ f.specialty }}</p>
+          <p><strong>Nº colegiado:</strong> {{ f.licenseNumber }}</p>
+        </ion-label>
+        <ion-button slot="end" fill="clear" color="dark" (click)="showOptions(f)">
+          <ion-icon slot="icon-only" name="menu"></ion-icon>
+        </ion-button>
+      </ion-item>
+    }
+  </ion-list>
+</ion-content>
+
+@if (isAdmin()) {
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button [routerLink]="['/physios/add']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+}

@@ -8,4 +8,11 @@ export const appointmentsRoutes: Routes = [
         (m) => m.HomePage
       ),
   },
+  {
+    path: 'add/:physioId',
+    loadComponent: () =>
+      import('./appointment-form/appointment-form.page').then(
+        (m) => m.AppointmentFormPage
+      ),
+  }
 ];

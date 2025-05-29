@@ -40,6 +40,8 @@ export class AuthService {
       await Preferences.set({ key: 'fs-rol', value: resp.rol });
       await Preferences.set({ key: 'fs-id', value: resp.id! });
 
+      this.#rol.set(resp.rol);   
+      this.#id.set(resp.id!);
       this.#logged.set(true);
     } catch (e) {
       throw new Error("Can't save authentication token in storage!");
@@ -62,10 +64,15 @@ export class AuthService {
     }
 
     const token = await Preferences.get({ key: 'fs-token' });
+    const rol = await Preferences.get({ key: 'fs-rol' });
+    const id = await Preferences.get({ key: 'fs-id' });
+    
     if (!token.value) {
       // No hay token
       return false;
     }
+    this.#rol.set(rol.value);
+    this.#id.set(id.value);
 
     return firstValueFrom(this.#http.get('auth/validate').pipe(
       map(() => {

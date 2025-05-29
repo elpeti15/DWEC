@@ -16,6 +16,12 @@ export const routes: Routes = [
       import('./appointments/appointments.routes').then((m) => m.appointmentsRoutes),
   },
   {
+    path: 'physios',
+    canActivate: [loginActivateGuard],
+    loadChildren: () => 
+      import('./physios/physios.routes').then((m) => m.physiosRoutes)
+  },
+  {
     path: '',
     redirectTo: 'auth/login',
     pathMatch: 'full',
@@ -24,8 +30,12 @@ export const routes: Routes = [
     path: '**',
     redirectTo: 'auth/login',
   },
-  {
+  /*{
     path: 'home',
     loadComponent: () => import('./appointments/home/home.page').then( m => m.HomePage)
   },
+  {
+    path: 'home',
+    loadComponent: () => import('./physios/home/home.page').then( m => m.HomePage)
+  },*/
 ];
