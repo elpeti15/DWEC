@@ -3,7 +3,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
   appName: 'ionic-physiocare',
-  webDir: 'www/browser',
+  webDir: 'www',
   android: {
     allowMixedContent: true
   },
