@@ -3,7 +3,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { IonApp, IonAvatar, IonContent, IonIcon, IonImg, IonItem, IonLabel, IonList, IonMenu, IonMenuToggle, IonRouterLink, IonRouterOutlet, IonSplitPane, Platform } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { add, arrowUndoCircle, camera, chatboxEllipses, checkmarkCircle, close, documentText, exit, eye, home, images, informationCircle, logIn, menu, trash, pencil, calendar, people} from 'ionicons/icons';
+import { add, arrowUndoCircle, camera, chatboxEllipses, checkmarkCircle, close, documentText, exit, eye, home, images, informationCircle, logIn, menu, trash, pencil, calendar, people, location, document, card} from 'ionicons/icons';
 import { User } from './auth/interfaces/user';
 import { AuthService } from './auth/services/auth.service';
 import { NavController, ToastController } from '@ionic/angular';
@@ -28,7 +28,7 @@ export class AppComponent {
     { title: 'Pacientes', url: '/patients', icon: 'people' },
   ];
   constructor() {
-    addIcons({ exit, home, logIn, documentText, checkmarkCircle, images, camera, arrowUndoCircle, menu, add, close, eye, trash, informationCircle, chatboxEllipses, pencil, calendar, people});
+    addIcons({ exit, home, logIn, documentText, checkmarkCircle, images, camera, arrowUndoCircle, menu, add, close, eye, trash, informationCircle, chatboxEllipses, pencil, calendar, people, location, document, card });
 
     effect(() => {
       if (this.#authService.logged()) {
@@ -42,7 +42,7 @@ export class AppComponent {
   }
 
   async initializeApp() {
-    if (this.#platform.is('mobile')) { //quizas va capacitor aquí
+    if (this.#platform.is('capacitor')) { // o mobile?
       await this.#platform.ready();
       SplashScreen.hide();
     }
@@ -54,11 +54,11 @@ export class AppComponent {
   }
 
   get name(): string {
-  const u = this.user();
-  if (!u) return '';
-  if (u.rol === 'patient') return u.patient?.name ?? u.login;
-  if (u.rol === 'physio') return u.physio?.name ?? u.login;
-  return 'Administrator';
+    const u = this.user();
+    if (!u) return '';
+    if (u.rol === 'patient') return u.patient?.name ?? u.login;
+    if (u.rol === 'physio') return u.physio?.name ?? u.login;
+    return 'Administrator';
   }
 
   get email(): string {

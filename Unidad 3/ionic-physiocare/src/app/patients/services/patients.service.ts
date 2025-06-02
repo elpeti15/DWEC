@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Patient } from '../interfaces/patient';
-import { PatientsResponse, SinglePatientResponse } from '../interfaces/responses';
+import { Record } from '../interfaces/record';
+import { PatientsResponse, SinglePatientResponse, SingleRecordResponse } from '../interfaces/responses';
 
 
 @Injectable({
@@ -31,5 +32,23 @@ export class PatientsService {
 
   deletePatient(idPat: string): Observable<void> {
     return this.#http.delete<void>(`patients/${idPat}`);
+  }
+
+  getRecordProfile(id?: string): Observable<Record> {
+    if (id) {
+      return this.#http
+        .get<SingleRecordResponse>(`records/profile/${id}`)
+        .pipe(map((resp) => resp.result));
+    } else {
+      return this.#http
+        .get<SingleRecordResponse>(`records/profile/me`)
+        .pipe(map((resp) => resp.result));
+    }
+  }
+
+  updateMedicalRecord(id: string, record: string): Observable<Record> {
+    return this.#http
+      .put<SingleRecordResponse>(`records/${id}`, { medicalRecord: record })
+      .pipe(map((resp) => resp.result));
   }
 }

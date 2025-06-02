@@ -16,7 +16,7 @@
   <!-- Barra de búsqueda -->
   <ion-searchbar
     debounce="500"
-    placeholder="Search by name or surname"
+    placeholder="Buscar por nombre o apellido"
     [(ngModel)]="searchTerm"
     (ionInput)="filterPatientsByNameAndSurname()">
   </ion-searchbar>
@@ -34,7 +34,7 @@
       <ion-item>
         <ion-thumbnail slot="start">
           <ion-img 
-              [src]="pat.avatar || 'assets/default_avatar.jpg'">
+              [src]="pat.avatar || 'assets/img/default_avatar.png'">
           </ion-img>
         </ion-thumbnail>
         <ion-label text-wrap>

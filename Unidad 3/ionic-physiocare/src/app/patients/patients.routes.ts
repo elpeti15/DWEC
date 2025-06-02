@@ -13,5 +13,14 @@ export const patientsRoutes: Routes = [
         m => m.PatientsFormPage
     ),
     data: { roles: ['admin'] }
+  },
+  {
+    path: 'profile/:id',
+    loadComponent: () => import('./patient-detail/patient-detail.page').then(
+        m => m.PatientDetailPage
+    ),
+    loadChildren: () => import('./patient-detail/patient-detail.routes').then(
+        m => m.patientDetailRoutes
+    ),
   }
 ];

@@ -49,7 +49,7 @@ export class PatientsPage {
   async showOptions(patient: Patient) {
     const buttons: any[] = [
       {
-        text: 'View Details',
+        text: 'Ver Detalles',
         icon: 'eye',
         handler: () => {
           this.#navController.navigateForward(['/patients/profile', patient._id]);
@@ -59,7 +59,7 @@ export class PatientsPage {
 
     if (this.isAdmin) {
       buttons.push({
-        text: 'Delete Patient',
+        text: 'Borrar Paciente',
         role: 'destructive',
         icon: 'trash',
         handler: () => {
@@ -76,13 +76,13 @@ export class PatientsPage {
     }
 
     buttons.push({
-      text: 'Cancel',
+      text: 'Cancelar',
       icon: 'close',
       role: 'cancel'
     });
 
     const actionSheet = await this.#actionSheetCtrl.create({
-      header: 'Patient Options',
+      header: 'Opciones Paciente',
       buttons
     });
     actionSheet.present();
