@@ -3,7 +3,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { IonApp, IonAvatar, IonContent, IonIcon, IonImg, IonItem, IonLabel, IonList, IonMenu, IonMenuToggle, IonRouterLink, IonRouterOutlet, IonSplitPane, Platform } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { add, arrowUndoCircle, camera, chatboxEllipses, checkmarkCircle, close, documentText, exit, eye, home, images, informationCircle, logIn, menu, trash, pencil, calendar, people, location, document, card, navigate} from 'ionicons/icons';
+import { add, arrowUndoCircle, camera, chatboxEllipses, checkmarkCircle, close, documentText, exit, eye, home, images, informationCircle, logIn, menu, trash, pencil, calendar, people, location, document, card, navigate, medkitOutline} from 'ionicons/icons';
 import { User } from './auth/interfaces/user';
 import { AuthService } from './auth/services/auth.service';
 import { NavController, ToastController } from '@ionic/angular';
@@ -28,7 +28,7 @@ export class AppComponent {
     { title: 'Pacientes', url: '/patients', icon: 'people' },
   ];
   constructor() {
-    addIcons({ exit, home, logIn, documentText, checkmarkCircle, images, camera, arrowUndoCircle, menu, add, close, eye, trash, informationCircle, chatboxEllipses, pencil, calendar, people, location, document, card, navigate });
+    addIcons({ exit, home, logIn, documentText, checkmarkCircle, images, camera, arrowUndoCircle, menu, add, close, eye, trash, informationCircle, chatboxEllipses, pencil, calendar, people, location, document, card, navigate, medkitOutline });
 
     effect(() => {
       if (this.#authService.logged()) {

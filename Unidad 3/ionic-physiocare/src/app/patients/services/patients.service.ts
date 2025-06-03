@@ -48,7 +48,7 @@ export class PatientsService {
 
   updateMedicalRecord(id: string, record: string): Observable<Record> {
     return this.#http
-      .put<SingleRecordResponse>(`records/${id}`, { medicalRecord: record })
+      .put<SingleRecordResponse>(`records/${id}/medical-record`, { medicalRecord: record })
       .pipe(map((resp) => resp.result));
   }
 }

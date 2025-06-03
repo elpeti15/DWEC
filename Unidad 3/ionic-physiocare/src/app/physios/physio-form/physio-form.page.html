@@ -11,44 +11,93 @@
   <form #physioForm="ngForm" (ngSubmit)="addPhysio()">
     <ion-list>
       <ion-item>
-        <ion-input name="name" required [(ngModel)]="newPhysio.name" #nameModel="ngModel" label="Nombre" labelPlacement="floating"></ion-input>
+        <ion-input name="name" required minlength="2" maxlength="50" [(ngModel)]="newPhysio.name" #nameModel="ngModel" label="Nombre" labelPlacement="floating"></ion-input>
         @if (nameModel.dirty && nameModel.valid) {
           <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
         }
       </ion-item>
+      @if (nameModel.invalid && nameModel.touched) {
+        <ion-note color="danger" class="validation-note">
+          El nombre es obligatorio (2-50 caracteres).
+        </ion-note>
+      }
 
       <ion-item>
-        <ion-input name="surname" required [(ngModel)]="newPhysio.surname" #surnameModel="ngModel" label="Apellidos" labelPlacement="floating"></ion-input>
+        <ion-input name="surname" required minlength="2" maxlength="50" [(ngModel)]="newPhysio.surname" #surnameModel="ngModel" label="Apellidos" labelPlacement="floating"></ion-input>
         @if (surnameModel.dirty && surnameModel.valid) {
           <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
         }
       </ion-item>
+      @if (surnameModel.invalid && surnameModel.touched) {
+        <ion-note color="danger" class="validation-note">
+          El apellido es obligatorio (2-50 caracteres).
+        </ion-note>
+      }
 
       <ion-item>
-        <ion-input name="email" type="email" required [(ngModel)]="newPhysio.email" #emailModel="ngModel" label="Email" labelPlacement="floating"></ion-input>
+        <ion-input name="email" type="email" required pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" [(ngModel)]="newPhysio.email" #emailModel="ngModel" label="Email" labelPlacement="floating"></ion-input>
         @if (emailModel.dirty && emailModel.valid) {
           <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
         }
       </ion-item>
+      @if (emailModel.invalid && emailModel.touched) {
+        <ion-note color="danger" class="validation-note">
+          Introduzca una dirección de correo electrónico válida.
+        </ion-note>
+      }
 
       <ion-item>
-        <ion-input name="specialty" required [(ngModel)]="newPhysio.specialty" #specialtyModel="ngModel" label="Especialidad" labelPlacement="floating"></ion-input>
-        @if (specialtyModel.dirty && specialtyModel.valid) {
-          <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
-        }
+        <ion-select
+          name="specialty"
+          required
+          [(ngModel)]="newPhysio.specialty"
+          #specialtyModel="ngModel"
+          label="Specialty"
+          labelPlacement="floating"
+          interface="popover"
+        >
+          <ion-select-option value="Sports">Deportes</ion-select-option>
+          <ion-select-option value="Neurological">Neurología</ion-select-option>
+          <ion-select-option value="Pediatric">Pediatría</ion-select-option>
+          <ion-select-option value="Geriatric">Geriatría</ion-select-option>
+          <ion-select-option value="Oncological">Oncología</ion-select-option>
+        </ion-select>
       </ion-item>
+      @if (specialtyModel.invalid && specialtyModel.touched) {
+        <ion-note color="danger" class="validation-note">
+          La especialidad es obligatoria.
+        </ion-note>
+      }
 
       <ion-item>
-        <ion-input name="licenseNumber" required [(ngModel)]="newPhysio.licenseNumber" #licenseModel="ngModel" label="Nº Colegiado" labelPlacement="floating"></ion-input>
+        <ion-input name="licenseNumber" required pattern="[a-zA-Z0-9]{8}" [(ngModel)]="newPhysio.licenseNumber" #licenseModel="ngModel" label="Nº Colegiado" labelPlacement="floating"></ion-input>
         @if (licenseModel.dirty && licenseModel.valid) {
           <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
         }
       </ion-item>
+      @if (licenseModel.invalid && licenseModel.touched) {
+        <ion-note color="danger" class="validation-note">
+          El número de colegiado es obligatorio y debe tener 8 caracteres alfanuméricos.
+        </ion-note>
+      }
+
     </ion-list>
 
-    <ion-button type="submit" color="primary" expand="block" [disabled]="physioForm.invalid">
-      <ion-icon name="add" slot="start"></ion-icon>
-      Añadir Fisio
-    </ion-button>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" color="primary" expand="block" [disabled]="physioForm.invalid">
+            <ion-icon name="add" slot="start"></ion-icon>
+            Añadir Fisio
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button color="danger" expand="block" fill="outline" [routerLink]="['/physios']" [routerDirection]="'root'">
+            <ion-icon name="arrow-undo-circle" slot="start"></ion-icon>
+            Cancelar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </form>
 </ion-content>

@@ -15,11 +15,13 @@ import {
   IonFabButton,
   IonIcon,
   ActionSheetController,
+  AlertController,
   NavController,
   IonButton,
   ActionSheetButton,
   IonImg,
-  IonThumbnail
+  IonThumbnail,
+  IonSearchbar
 } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { Physio } from '../interfaces/physio';
@@ -51,39 +53,50 @@ import { RouterLink } from '@angular/router';
     RouterLink,
     IonButton,
     IonImg,
-    IonThumbnail
+    IonThumbnail,
+    IonSearchbar
   ],
 })
 export class HomePage {
   physios = signal<Physio[]>([]);
   #physiosService = inject(PhysiosService);
-  #auth = inject(AuthService);
+  #authService = inject(AuthService);
   #navController = inject(NavController);
   #actionSheetCtrl =inject(ActionSheetController);
+  #alertCtrl = inject(AlertController);
+
+  searchTerm = '';
+  filteredPhysios = signal<Physio[]>([]);
 
   // Para usar en la plantilla
-  readonly isAdmin = computed(() => this.#auth.rol() === 'admin');
-  readonly isPatient = computed(() => this.#auth.rol() === 'patient');
+  readonly isAdmin = computed(() => this.#authService.rol() === 'admin');
+  readonly isPatient = computed(() => this.#authService.rol() === 'patient');
 
   ionViewWillEnter() {
     this.reloadPhysios();
   }
 
   reloadPhysios(refresher?: IonRefresher) {
-    this.#physiosService.getPhysios().subscribe((list) => {
-      console.log('Fisios cargados:', list);
-      this.physios.set(list);
-      refresher?.complete();
+    this.#physiosService.getPhysios().subscribe({
+      next: (physios) => {
+        this.physios.set(physios);
+        this.filterPhysiosByNameOrSurname();
+        refresher?.complete();
+      },
+      error: (err) => {
+        console.error('Error loading physios:', err);
+        refresher?.complete();
+      }
     });
   }
 
   async showOptions(physio: Physio) {
     const buttons: ActionSheetButton[] = [
       {
-        text: 'Ver perfil',
+        text: 'Ver Perfil',
         icon: 'eye',
         handler: () => {
-          this.#navController.navigateForward([`/physios/${physio._id}`]); // O ruta real cuando esté hecha //Esto falta por implementar
+          this.#navController.navigateForward([`/physios/profile/${physio._id}`]); 
         }
       }
     ];
@@ -93,24 +106,41 @@ export class HomePage {
         text: 'Pedir cita',
         icon: 'calendar',
         handler: () => {
-          // Lógica para pedir cita (redirigimos a la página de solicitud de cita)  //Falta por implementar
+          // Lógica para pedir cita (redirigimos a la página de solicitud de cita) 
           this.#navController.navigateForward([`/appointments/add/${physio._id}`]);
         }
       });
     }
 
     if (this.isAdmin()) {
-      buttons.unshift({
-        text: 'Eliminar',
-        icon: 'trash',
-        role: 'destructive',
-        handler: () => {
-          this.#physiosService.deletePhysio(physio._id!).subscribe(() => {
-            this.physios.update(arr => arr.filter(p => p._id !== physio._id));
-          });
-        }
-      });
-    }
+    buttons.push({
+      text: 'Eliminar fisio',
+      icon: 'trash',
+      role: 'destructive',
+      handler: async () => {
+        const alert = await this.#alertCtrl.create({
+          header: 'Eliminar Fisio',
+          message: '¿Estás seguro de que quieres eliminar este fisioterapeuta?',
+          buttons: [
+            {
+              text: 'Ok',
+              handler: () => {
+                this.#physiosService.deletePhysio(physio._id!).subscribe(() => {
+                  this.physios.update(arr => arr.filter(p => p._id !== physio._id));
+                  this.filterPhysiosByNameOrSurname();
+                });
+              },
+            },
+            {
+              text: 'Cancelar',
+              role: 'cancel',
+            },
+          ],
+        });
+        alert.present();
+      }
+    });
+  }
 
     buttons.push({
       text: 'Cancelar',
@@ -124,5 +154,19 @@ export class HomePage {
     });
 
     await actSheet.present();
+  }
+
+  filterPhysiosByNameOrSurname() {
+    const physiosArr = this.physios();
+    //console.log('physios signal value:', physiosArr, Array.isArray(physiosArr));
+    if (this.searchTerm.trim() === '') {
+      this.filteredPhysios.set(physiosArr ?? []);
+    } else {
+      this.searchTerm = this.searchTerm.trim().toLowerCase();
+      this.filteredPhysios.set((physiosArr ?? []).filter(physio =>
+        physio.name.toLowerCase().includes(this.searchTerm) ||
+        (physio.surname?.toLowerCase().includes(this.searchTerm) ?? false)
+      ));
+    }
   }
 }

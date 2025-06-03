@@ -52,7 +52,7 @@ export class PatientsPage {
   async showOptions(patient: Patient) {
     const buttons: any[] = [
       {
-        text: 'Ver Detalles',
+        text: 'Ver Perfil',
         icon: 'eye',
         handler: () => {
           this.#navController.navigateForward(['/patients/profile', patient._id]);
@@ -101,7 +101,7 @@ export class PatientsPage {
     });
 
     const actionSheet = await this.#actionSheetCtrl.create({
-      header: 'Opciones Paciente',
+      header: `${patient.name} ${patient.surname}`,
       buttons
     });
     actionSheet.present();

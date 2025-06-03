@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import {
-  IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonList,
-  IonItem, IonInput, IonLabel, IonButton, ToastController, NavController, IonIcon
+  IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonList, IonSelect, IonSelectOption,
+  IonItem, IonInput, IonLabel, IonButton, ToastController, NavController, IonIcon, IonNote, IonGrid, IonRow, IonCol
 } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { Physio } from '../interfaces/physio';
@@ -13,7 +13,8 @@ import { RouterLink } from '@angular/router';
   templateUrl: './physio-form.page.html',
   styleUrls: ['./physio-form.page.scss'],
   standalone: true,
-  imports: [FormsModule, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonList, IonItem, IonInput, IonButton, IonIcon]
+  imports: [FormsModule, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonSelect, IonSelectOption,
+    IonTitle, IonContent, IonList, IonItem, IonInput, IonButton, IonIcon, IonNote, IonGrid, IonRow, IonCol, RouterLink]
 })
 export class PhysioFormPage {
   newPhysio: Physio = {

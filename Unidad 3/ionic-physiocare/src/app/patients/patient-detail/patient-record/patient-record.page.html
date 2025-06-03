@@ -1,13 +1,64 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>patient-record</ion-title>
+    <ion-title>Medical Record</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">patient-record</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  @if (record()) {
+    <ion-card>
+      <ion-card-content>
+        <ion-card-title>Expediente médico</ion-card-title>
+        @if (canEdit) {
+          @if (!showInputs()) {
+            <p>{{record()!.medicalRecord || 'No hay expediente médico disponible.'}}</p>
+            <ion-button expand="block" color="primary" (click)="toggleInputs()">
+              Editar
+            </ion-button>
+          } @else {
+            <ion-textarea
+              autoGrow="true"
+              [(ngModel)]="medicalRecord"
+              placeholder="Describe el expediente médico aquí...">
+            </ion-textarea>
+            <ion-button expand="block" color="success" (click)="saveMedicalRecord()">
+              Guardar
+            </ion-button>
+            <ion-button expand="block" fill="clear" color="medium" (click)="toggleInputs()">
+              Cancelar
+            </ion-button>
+          }
+        } @else {
+          <p>{{record()!.medicalRecord || 'No hay expediente médico disponible.'}}</p>
+        }
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-title style="padding: 16px 16px 0 16px;">Citas anteriores</ion-card-title>
+      <ion-card-content>
+        @if (pastAppointments.length === 0) {
+          <ion-note color="medium">No hay citas anteriores.</ion-note>
+        }
+        @for (app of pastAppointments; track app._id) {
+          <ion-card style="margin-bottom: 16px;">
+            <ion-card-header>
+              <ion-card-title>
+                {{ app.date | date:'mediumDate' }} - {{ app.physio.name }} {{ app.physio.surname }}
+              </ion-card-title>
+              <ion-card-subtitle>
+                Diagnóstico: {{ app.diagnosis }}
+              </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <p><strong>Tratamiento:</strong> {{ app.treatment }}</p>
+              @if (app.observations) {
+                <p><strong>Observaciones:</strong> {{ app.observations }}</p>
+              }
+            </ion-card-content>
+          </ion-card>
+        }
+      </ion-card-content>
+    </ion-card>
+  }
 </ion-content>

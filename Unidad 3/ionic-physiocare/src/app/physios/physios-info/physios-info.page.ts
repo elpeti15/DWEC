@@ -16,7 +16,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 export class PhysiosInfoPage {
   #physiosService = inject(PhysiosService);
   #alertCtrl = inject(AlertController);
-  #nav = inject(NavController);
+  #navController = inject(NavController);
   #authService = inject(AuthService);
 
   id = input.required();
@@ -30,17 +30,25 @@ export class PhysiosInfoPage {
     return this.#authService.rol() === 'admin';
   }
 
+  get isPatient() {
+    return this.#authService.rol() === 'patient';
+  }
+
+  get isOwner() {
+    return this.physio()?._id === this.#authService.id();
+  }
+
   async delete() {
     const alert = await this.#alertCtrl.create({
-      header: 'Delete physio',
-      message: 'Are you sure you want to delete this physio?',
+      header: 'Eliminar fisio',
+      message: '¿Estás seguro de que quieres eliminar este fisioterapeuta?',
       buttons: [
         {
           text: 'Ok',
           handler: () => {
             this.#physiosService
               .deletePhysio(this.physio()!._id!)
-              .subscribe(() => this.#nav.navigateBack(['/physios']));
+              .subscribe(() => this.#navController.navigateBack(['/physios']));
           },
         },
         {
@@ -50,5 +58,17 @@ export class PhysiosInfoPage {
       ],
     });
     alert.present();
+  }
+
+  bookAppointment() {
+    this.#navController.navigateForward([`/appointments/add/${this.physio()?._id}`]);
+  }
+
+  selectPhoto() {
+    throw new Error('Method not implemented.');
+  }
+
+  takePhoto() {
+    throw new Error('Method not implemented.');
   }
 }

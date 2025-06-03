@@ -29,18 +29,36 @@
     @for (app of filteredAppointments(); track app._id) {
       <ion-item>
         <ion-label text-wrap>
-          <h4>
+          <h2 style="display: flex; align-items: center; gap: 8px;">
             @if (app.patient) {
-              <ion-router-link [routerLink]="['/patients', app.patient._id]">
+              <span>
                 Paciente: {{ app.patient.name }} {{ app.patient.surname }}
-              </ion-router-link>
+              </span>
+              <ion-button
+                size="small"
+                fill="clear"
+                color="primary"
+                [routerLink]="['/patients/profile', app.patient._id]"
+                title="Ver perfil paciente"
+              >
+                <ion-icon name="eye" slot="icon-only"></ion-icon>
+              </ion-button>
             }
             @if (app.physio && !app.patient) {
-              <ion-router-link [routerLink]="['/physios/profile', app.physio._id]">
+              <span>
                 Fisio: {{ app.physio.name }} {{ app.physio.surname }}
-              </ion-router-link>
+              </span>
+              <ion-button
+                size="small"
+                fill="clear"
+                color="primary"
+                [routerLink]="['/physios/profile', app.physio._id]"
+                title="Ver perfil fisio"
+              >
+                <ion-icon name="eye" slot="icon-only"></ion-icon>
+              </ion-button>
             }
-          </h4>
+          </h2>
           <p><strong>Fecha:</strong> {{ app.date | date:'medium' }}</p>
           @if (app.diagnosis) {
             <p><strong>Diagnóstico:</strong> {{ app.diagnosis }}</p>
