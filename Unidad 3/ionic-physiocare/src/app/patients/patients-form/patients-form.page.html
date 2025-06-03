@@ -119,7 +119,7 @@
           #addressModel="ngModel"
           label="Address"
           labelPlacement="floating"
-          placeholder="Select your address on the map below"
+          placeholder="Selecciona una dirección en el mapa"
         ></ion-input>
       </ion-item>
       @if (addressModel.invalid && addressModel.touched) {
@@ -143,13 +143,13 @@
         <ion-col>
           <ion-button type="submit" color="primary" expand="block" [disabled]="patientForm.invalid">
             <ion-icon name="add" slot="start"></ion-icon>
-            Add patient
+            Añadir paciente
           </ion-button>
         </ion-col>
         <ion-col>
           <ion-button color="danger" expand="block" fill="outline" [routerLink]="['/patients']" [routerDirection]="'root'">
             <ion-icon name="arrow-undo-circle" slot="start"></ion-icon>
-            Cancel
+            Cancelar
           </ion-button>
         </ion-col>
       </ion-row>

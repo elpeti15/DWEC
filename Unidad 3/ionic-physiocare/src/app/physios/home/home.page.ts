@@ -17,7 +17,9 @@ import {
   ActionSheetController,
   NavController,
   IonButton,
-  ActionSheetButton
+  ActionSheetButton,
+  IonImg,
+  IonThumbnail
 } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { Physio } from '../interfaces/physio';
@@ -47,7 +49,9 @@ import { RouterLink } from '@angular/router';
     IonFabButton,
     IonIcon,
     RouterLink,
-    IonButton
+    IonButton,
+    IonImg,
+    IonThumbnail
   ],
 })
 export class HomePage {

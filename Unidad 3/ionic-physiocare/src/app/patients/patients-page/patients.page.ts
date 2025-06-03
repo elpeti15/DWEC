@@ -1,17 +1,18 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { NavController, ActionSheetController, IonSearchbar, IonImg, IonRouterLink, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonFab, IonFabButton, IonIcon, IonList, IonItem, IonThumbnail,IonLabel, IonButton } from '@ionic/angular/standalone';
+import { NavController, ActionSheetController, AlertController, IonSearchbar, IonImg, IonRouterLink, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonFab, IonFabButton, IonIcon, IonList, IonItem, IonThumbnail,IonLabel, IonButton } from '@ionic/angular/standalone';
 import { Patient } from '../interfaces/patient';
 import { PatientsService } from '../services/patients.service';
 import { AuthService } from '../../auth/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-patients-page',
   templateUrl: './patients.page.html',
   styleUrls: ['./patients.page.scss'],
   standalone: true,
-  imports: [FormsModule, RouterLink, IonSearchbar, IonImg, IonRouterLink, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonFab, IonFabButton, IonIcon, IonList, IonItem, IonThumbnail, IonLabel, IonButton]
+  imports: [FormsModule, CommonModule, RouterLink, IonSearchbar, IonImg, IonRouterLink, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonFab, IonFabButton, IonIcon, IonList, IonItem, IonThumbnail, IonLabel, IonButton]
 })
 export class PatientsPage {
 
@@ -23,6 +24,8 @@ export class PatientsPage {
   #navController = inject(NavController);
   #actionSheetCtrl = inject(ActionSheetController);
   #authService = inject(AuthService);
+
+  #alertCtrl = inject(AlertController);
 
   ionViewWillEnter() {
     this.reloadPatients();
@@ -62,15 +65,31 @@ export class PatientsPage {
         text: 'Borrar Paciente',
         role: 'destructive',
         icon: 'trash',
-        handler: () => {
-          this.#patientsService
-            .deletePatient(patient._id!)
-            .subscribe(() => {
-              this.patients.update((currentPatients) =>
-                currentPatients.filter((p) => p._id !== patient._id)
-              );
-              this.filterPatientsByNameAndSurname();
-            });
+        handler: async () => {
+          const alert = await this.#alertCtrl.create({
+            header: 'Borrar Paciente',
+            message: '¿Estás seguro de que quieres borrar este paciente?',
+            buttons: [
+              {
+                text: 'Ok',
+                handler: () => {
+                  this.#patientsService
+                    .deletePatient(patient._id!)
+                    .subscribe(() => {
+                      this.patients.update((currentPatients) =>
+                        currentPatients.filter((p) => p._id !== patient._id)
+                      );
+                      this.filterPatientsByNameAndSurname();
+                    });
+                },
+              },
+              {
+                text: 'Cancelar',
+                role: 'cancel',
+              },
+            ],
+          });
+          alert.present();
         }
       });
     }

@@ -19,6 +19,11 @@
   <ion-list style="padding-bottom: 50px">
     @for (f of physios(); track f._id) {
       <ion-item>
+        <ion-thumbnail slot="start">
+          <ion-img 
+              [src]="f.avatar || 'assets/default_avatar.png'">
+          </ion-img>
+        </ion-thumbnail>
         <ion-label text-wrap>
           <h4>{{ f.name }} {{ f.surname }}</h4>
           <p><strong>Email:</strong> {{ f.email }}</p>

@@ -38,8 +38,11 @@
           </ion-img>
         </ion-thumbnail>
         <ion-label text-wrap>
-          <h4>{{pat.name}}</h4>
-          <p>{{pat.email}}</p>
+          <h4>{{pat.name}} {{pat.surname}}</h4>
+          <p><strong>Email:</strong> {{pat.email}}</p>
+          <p><strong>Fecha de nacimiento:</strong> {{ pat.birthDate | date:'longDate'}}</p>
+          <p><strong>Dirección:</strong> {{ pat.address }}</p>
+          <p><strong>Nº seguro:</strong> {{ pat.insuranceNumber }}</p>
         </ion-label>
         <ion-button slot="end" fill="clear" color="dark" (click)="showOptions(pat)">
           <ion-icon slot="icon-only" name="menu"></ion-icon>

@@ -48,7 +48,7 @@ export class PatientsFormPage {
         (await this.#toastCtrl.create({
           position: 'bottom',
           duration: 3000,
-          message: 'Patient added succesfully',
+          message: 'Paciente añadido correctamente',
           color: 'success'
         })).present();
         this.#nav.navigateRoot(['/patients']);
@@ -56,7 +56,7 @@ export class PatientsFormPage {
       error: async error => (await this.#toastCtrl.create({
         position: 'bottom',
         duration: 3000,
-        message: 'Error adding patient'
+        message: 'Error al añadir paciente'
       })).present()
     });
   }

@@ -44,7 +44,7 @@ export class PatientInfoPage {
           },
         },
         {
-          text: 'Cancel',
+          text: 'Cancelar',
           role: 'cancel',
         },
       ],

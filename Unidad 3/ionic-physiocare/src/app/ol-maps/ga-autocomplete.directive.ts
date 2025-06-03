@@ -12,13 +12,13 @@ import { SearchResult } from './search-result';
   selector: 'ga-autocomplete',
   host: {
     style: `
-      width:100%;
-      // z-index: 1;
+      z-index: 1;
       display: block;
-      // position: absolute;
-      // top: 20px;
-      // right: 20px;
-      // width: 50%;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 50%;
+      min-width: 300px;
       background-color: white;
     `,
   },
