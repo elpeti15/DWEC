@@ -31,4 +31,10 @@ export class PhysiosService {
   deletePhysio(id: string): Observable<void> {
     return this.#http.delete<void>(`physios/${id}`);
   }
+
+  updateAvatar(id: string, avatar: string): Observable<Physio> {
+    return this.#http.post<SinglePhysioResponse>(`physios/avatar/${id}`, { avatar }).pipe(
+      map(resp => resp.result)
+    );
+  }
 }

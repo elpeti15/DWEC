@@ -1,10 +1,11 @@
-import { Component, inject, input, computed } from '@angular/core';
+import { Component, inject, input, computed, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertController, IonButtons, IonBackButton, IonTitle, NavController, IonCol, IonGrid, IonRow, IonList, IonHeader, IonToolbar, IonContent, IonCard, IonCardContent, IonCardTitle, IonCardSubtitle, IonButton, IonIcon, IonLabel, IonItem } from '@ionic/angular/standalone';
 import { PhysiosService } from '../services/physios.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-physios-info',
@@ -18,6 +19,7 @@ export class PhysiosInfoPage {
   #alertCtrl = inject(AlertController);
   #navController = inject(NavController);
   #authService = inject(AuthService);
+  #changeDetector = inject(ChangeDetectorRef);
 
   id = input.required();
   physioResource = rxResource({
@@ -64,11 +66,38 @@ export class PhysiosInfoPage {
     this.#navController.navigateForward([`/appointments/add/${this.physio()?._id}`]);
   }
 
-  selectPhoto() {
-    throw new Error('Method not implemented.');
+  async takePhoto() {;
+    const photo = await Camera.getPhoto({
+      source: CameraSource.Camera,
+      quality: 90,
+      height: 400,
+      width: 400,
+      // allowEditing: true,
+      resultType: CameraResultType.DataUrl // Base64 (url encoded)
+    });
+
+    const physio = this.physio();
+    if (physio && photo.dataUrl) {
+      this.#physiosService.updateAvatar(physio._id!, photo.dataUrl).subscribe(() => {
+        this.physioResource.reload();
+      });
+    }
   }
 
-  takePhoto() {
-    throw new Error('Method not implemented.');
+  async pickFromGallery() {
+    const photo = await Camera.getPhoto({
+      source: CameraSource.Photos,
+      height: 400,
+      width: 400,
+      // allowEditing: true,
+      resultType: CameraResultType.DataUrl // Base64 (url encoded)
+    });
+
+    const physio = this.physio();
+    if (physio && photo.dataUrl){
+      this.#physiosService.updateAvatar(physio._id!, photo.dataUrl).subscribe(() => {
+        this.physioResource.reload();
+      });
+    }
   }
 }

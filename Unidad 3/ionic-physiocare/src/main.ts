@@ -8,6 +8,9 @@ import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { baseUrlInterceptor } from './app/interceptors/base-url.interceptor';
 import { authInterceptor } from './app/interceptors/auth.interceptor';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+defineCustomElements(window);
 
 bootstrapApplication(AppComponent, {
   providers: [
