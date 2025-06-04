@@ -31,7 +31,7 @@ export class AppComponent {
   menuPages = computed(() => {
     const u = this.user();
     const basePages = [
-      { title: 'Citas', url: '/appointments', icon: 'home' },
+      { title: 'Citas', url: '/appointments', icon: 'calendar' },
       { title: 'Fisioterapeutas', url: '/physios', icon: 'medkit-outline' },
       { title: 'Pacientes', url: '/patients', icon: 'people' },
     ];
