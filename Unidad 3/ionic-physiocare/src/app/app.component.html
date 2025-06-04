@@ -14,7 +14,7 @@
       }
       <ion-content>
         <ion-list id="inbox-list">
-          @for (p of appPages; track p; let i = $index) {
+          @for (p of menuPages(); track p; let i = $index) {
             <ion-menu-toggle auto-hide="false">
               <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">
                 <ion-icon aria-hidden="true" slot="start" [name]="p.icon"></ion-icon>

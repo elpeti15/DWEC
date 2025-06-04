@@ -33,7 +33,7 @@ export class AppointmentsService {
             }));
         }
 
-        return of([]); // Si no es ni paciente ni fisio
+        return of([]);
       })
     );
   }

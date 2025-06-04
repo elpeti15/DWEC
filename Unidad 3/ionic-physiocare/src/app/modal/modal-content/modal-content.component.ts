@@ -1,4 +1,4 @@
-import { Component, inject, input, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -36,19 +36,23 @@ import { Appointment } from 'src/app/appointments/interfaces/appointment';
   ],
 })
 export class ModalContentComponent {
-  appointment = input.required<Appointment>();
+  appointment!: Appointment;
 
   diagnosis = '';
   treatment = '';
   observations = '';
 
   #modal = inject(ModalController);
+  #cdr = inject(ChangeDetectorRef);
 
   ionViewWillEnter() {
-    const a = this.appointment();
-    this.diagnosis = a.diagnosis || '';
-    this.treatment = a.treatment || '';
-    this.observations = a.observations || '';
+    const a = this.appointment;
+    if (a) {
+      this.diagnosis = a.diagnosis || '';
+      this.treatment = a.treatment || '';
+      this.observations = a.observations || '';
+      this.#cdr.detectChanges(); // Para forzar la detección de cambios
+    }
   }
 
   save() {

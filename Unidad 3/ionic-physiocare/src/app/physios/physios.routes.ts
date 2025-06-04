@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { roleGuard } from '../guards/role.guard';
 
 export const physiosRoutes: Routes = [
   {
@@ -8,6 +9,8 @@ export const physiosRoutes: Routes = [
   {
     path: 'add',
     loadComponent: () => import('./physio-form/physio-form.page').then((m) => m.PhysioFormPage),
+    canActivate: [roleGuard],
+    data: { roles: ['admin'] }
   },
   {
     path: 'profile/:id',

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { roleGuard } from '../guards/role.guard';
 
 export const patientsRoutes: Routes = [
   {
@@ -6,12 +7,15 @@ export const patientsRoutes: Routes = [
     loadComponent: () => import('./patients-page/patients.page').then(
         m => m.PatientsPage
     ),
+    canActivate: [roleGuard],
+    data: { roles: ['admin', 'physio'] }
   },
   {
     path: 'add',
     loadComponent: () => import('./patients-form/patients-form.page').then(
         m => m.PatientsFormPage
     ),
+    canActivate: [roleGuard],
     data: { roles: ['admin'] }
   },
   {

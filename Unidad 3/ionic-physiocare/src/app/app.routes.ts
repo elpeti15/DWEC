@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { logoutActivateGuard } from './guards/logout-activate.guard';
 import { loginActivateGuard } from './guards/login-activate.guard';
+import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -11,7 +12,8 @@ export const routes: Routes = [
   },
   {
     path: 'appointments',
-    canActivate: [loginActivateGuard],
+    canActivate: [loginActivateGuard, roleGuard],
+    data: { roles: ['physio', 'patient'] },
     loadChildren: () =>
       import('./appointments/appointments.routes').then((m) => m.appointmentsRoutes),
   },
@@ -35,17 +37,5 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: 'auth/login',
-  },
-  {
-    path: 'patients',
-    loadComponent: () => import('./patients/patients-page/patients.page').then( m => m.PatientsPage)
-  },
-  /*{
-    path: 'home',
-    loadComponent: () => import('./appointments/home/home.page').then( m => m.HomePage)
-  },
-  {
-    path: 'home',
-    loadComponent: () => import('./physios/home/home.page').then( m => m.HomePage)
-  },*/
+  }
 ];

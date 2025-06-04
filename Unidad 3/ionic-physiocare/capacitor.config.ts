@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'es.elpeti.ionic.physiocare',
   appName: 'ionic-physiocare',
   webDir: 'www',
   android: {
