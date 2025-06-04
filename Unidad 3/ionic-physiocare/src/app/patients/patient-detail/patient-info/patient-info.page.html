@@ -5,7 +5,7 @@
 <ion-content [fullscreen]="true">
   @if (record()) {
     <ion-card>
-      <img [src]="record()!.patient.avatar || 'assets/img/default_avatar.png'" style="object-fit: cover; max-width: 400px; height: 180px;">
+      <img [src]="record()!.patient.avatar || 'assets/img/default_avatar.png'" style="max-width: 400px; height: 180px;">
       <ion-card-content>
         <ion-card-title>
           {{record()!.patient.name}} {{record()!.patient.surname}}
@@ -18,13 +18,13 @@
           <ion-grid>
             <ion-row>
               <ion-col>
-                <ion-button expand="block" color="primary">
+                <ion-button expand="block" color="primary" (click)="takePhoto()">
                   <ion-icon name="camera" slot="start"></ion-icon>
                   Camera
                 </ion-button>
               </ion-col>
               <ion-col>
-                <ion-button expand="block" color="secondary">
+                <ion-button expand="block" color="secondary" (click)="pickFromGallery()">
                   <ion-icon name="image" slot="start"></ion-icon>
                   Gallery
                 </ion-button>

@@ -5,6 +5,7 @@ import { AlertController, NavController, IonCol, IonGrid, IonRow, IonList ,IonHe
 import { PatientDetailPage } from 'src/app/patients/patient-detail/patient-detail.page';
 import { PatientsService } from 'src/app/patients/services/patients.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-patient-info',
@@ -15,6 +16,7 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 })
 export class PatientInfoPage {
   record = inject(PatientDetailPage).record;
+  patientResource = inject(PatientDetailPage).recordResource;
 
   #alertCtrl = inject(AlertController);
   #patientsService = inject(PatientsService);
@@ -50,5 +52,40 @@ export class PatientInfoPage {
       ],
     });
     alert.present();
+  }
+
+  async takePhoto() {;
+    const photo = await Camera.getPhoto({
+      source: CameraSource.Camera,
+      quality: 90,
+      height: 400,
+      width: 400,
+      // allowEditing: true,
+      resultType: CameraResultType.DataUrl // Base64 (url encoded)
+    });
+
+    const patient = this.record()?.patient;
+    if (patient && photo.dataUrl) {
+      this.#patientsService.updateAvatar(patient._id!, photo.dataUrl).subscribe(() => {
+        this.patientResource.reload();
+      });
+    }
+  }
+
+  async pickFromGallery() {
+    const photo = await Camera.getPhoto({
+      source: CameraSource.Photos,
+      height: 400,
+      width: 400,
+      // allowEditing: true,
+      resultType: CameraResultType.DataUrl // Base64 (url encoded)
+    });
+
+    const patient = this.record()?.patient;
+    if (patient && photo.dataUrl){
+      this.#patientsService.updateAvatar(patient._id!, photo.dataUrl).subscribe(() => {
+        this.patientResource.reload();
+      });
+    }
   }
 }

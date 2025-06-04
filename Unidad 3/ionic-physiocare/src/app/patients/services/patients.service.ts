@@ -51,4 +51,10 @@ export class PatientsService {
       .put<SingleRecordResponse>(`records/${id}/medical-record`, { medicalRecord: record })
       .pipe(map((resp) => resp.result));
   }
+
+  updateAvatar(id: string, avatar: string): Observable<Patient> {
+    return this.#http
+      .post<SinglePatientResponse>(`patients/avatar/${id}`, { avatar })
+      .pipe(map((resp) => resp.result));
+  }
 }
